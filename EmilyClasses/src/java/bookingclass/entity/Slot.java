@@ -6,8 +6,8 @@ package bookingclass.entity;
  * @author Aldana
  */
 public class Slot {
-    private int idSlot;
-    private Student student;
+   private int idSlot;
+    private int studentID;
     private String subject;
     private int price;
     private String status;
@@ -17,31 +17,32 @@ public class Slot {
     public Slot() {
     }
 
-    public Slot(int id, Student student, String subject, int price, String status, Classes classes, String comment) {
-        this.idSlot = id;
-        this.student = student;
+    public Slot(int idSlot, int studentID, String subject, int price, String status, Classes classes, String comment) {
+        this.idSlot = idSlot;
+        this.studentID = studentID;
         this.subject = subject;
         this.price = price;
         this.status = status;
         this.classes = classes;
         this.comment = comment;
     }
-    
-    public int getId() {
+
+    public int getIdSlot() {
         return idSlot;
     }
 
-    public void setId(int id) {
-        this.idSlot = id;
+    public void setIdSlot(int idSlot) {
+        this.idSlot = idSlot;
     }
 
-    public Student getStudent() {
-        return student;
+    public int getStudentID() {
+        return studentID;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setStudentID(int studentID) {
+        this.studentID = studentID;
     }
+
 
     public String getSubject() {
         return subject;
@@ -82,5 +83,4 @@ public class Slot {
     public void setComment(String comment) {
         this.comment = comment;
     }
-    
 }

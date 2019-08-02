@@ -3,46 +3,41 @@ package bookingclass.controller;
 import bookingclass.entity.Classes;
 import dao.ClassesDaoImpl;
 import java.util.ArrayList;
+import viewInterface.IClass;
 
 
 /**
  *
  * @author Eoin
  */
-public class ClassController {
+public class ClassController implements IClass {
     ClassesDaoImpl data = new ClassesDaoImpl();
     
     //Store time available for the type of class and date selected
-    public ArrayList<Classes> classType(Classes c){
+    public ArrayList<Classes> chechClassAvailable(Classes c){
         
-        ArrayList <Classes> timeAvailable = new ArrayList();
+        ArrayList <Classes> classAvailable = new ArrayList();
         String classType = c.getType();
         
-        if (classType == "private" || classType == "in-group"){
-            timeAvailable = data.selectEmptyClass(c.getDate()); //Select depending on the type of class
+        if (classType == "private" || classType == "ingroup"){
+            classAvailable = data.selectEmptyClass(c.getDate()); //Select depending on the type of class
             
         }else{
-            timeAvailable = data.selectSemiprivateClass(c.getDate());   //Select if class = semiprivate
+            classAvailable = data.selectSemiprivateClass(c.getDate());   //Select if class = semiprivate
         }
-        return timeAvailable;
+        return classAvailable;
         
     }
     
-    public void bookClass (Classes c){
-        data.book(c);
-        System.out.println("Your class has been booked");
-        System.out.println("And your booking ID is: ");
+    
+    public int previousQuantityStudents (int classID){
+        int previousQuantityStudents = data.checkQuantityStudents (classID);
+        return previousQuantityStudents; 
     }
     
-    public void quantityStudents(Classes c){
-        if(c.getType()== "private"){
-            data.insertQuantityStudents(c, 1);
-        }else if (c.getType() == "semiprivate"){
-            int previousQuantity = c.getQuantityStudents();
-            data.insertQuantityStudents(c, previousQuantity++);
-        }else{
-            
-        }
+    public void bookClass (Classes c, int previousQS){
+        data.insertQuantityStudents(c, (previousQS + c.getQuantityStudents()));
+        data.book(c);
         
     }
     

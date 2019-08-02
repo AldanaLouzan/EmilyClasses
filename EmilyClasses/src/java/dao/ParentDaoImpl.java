@@ -2,12 +2,13 @@ package dao;
 
 import static bookingclass.connectionDb.DBConnection.getConnection;
 import bookingclass.entity.Parent;
+import iDao.IParentDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class ParentDaoImpl {
-    PreparedStatement pst;
+public class ParentDaoImpl implements IParentDao {
+  PreparedStatement pst;
     ResultSet rs;
     
     //Insert Parent Details

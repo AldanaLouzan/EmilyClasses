@@ -2,6 +2,7 @@ package dao;
 
 import static bookingclass.connectionDb.DBConnection.getConnection;
 import bookingclass.entity.Classes;
+import iDao.IClassesDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,15 +16,15 @@ import java.util.Date;
  *
  * @author Eoin
  */
-public class ClassesDaoImpl {
+public class ClassesDaoImpl implements IClassesDao {
 
-    PreparedStatement pst;
+  PreparedStatement pst;
     Statement st;
     ResultSet rs;
 
     //Obtain time available for classes type = private or type = in-group 
     public ArrayList<Classes> selectEmptyClass(Date d) {
-        ArrayList<Classes> timeAvailable = new ArrayList();
+        ArrayList<Classes> classAvailable = new ArrayList();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
@@ -36,7 +37,7 @@ public class ClassesDaoImpl {
 
         String sql = "SELECT * "
                 + "FROM classes "
-                + "WHERE quantity_students = 0 "
+                + "WHERE type = 'empty' "
                 + "AND date = '" + choosenDate + "';";
 
         try {
@@ -51,7 +52,7 @@ public class ClassesDaoImpl {
                 c.setType(rs.getString(4));
                 c.setQuantityStudents(rs.getInt(5));
 
-                timeAvailable.add(c);
+                classAvailable.add(c);
             }
             //con.commit();
             con.close();
@@ -59,13 +60,13 @@ public class ClassesDaoImpl {
         } catch (Exception e) {
             System.err.println(e);
         }
-        return timeAvailable;
+        return classAvailable;
 
     }
 
     //Obtain time available for classes type = private or type = in-group 
     public ArrayList<Classes> selectSemiprivateClass(Date d) {
-        ArrayList<Classes> timeAvailable = new ArrayList();
+        ArrayList<Classes> classAvailable = new ArrayList();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
@@ -78,7 +79,8 @@ public class ClassesDaoImpl {
 
         String sql = "SELECT * "
                 + "FROM classes "
-                + "WHERE quantity_students < 4 "
+                + "WHERE type = 'empty' "
+                + "OR (type = 'semiprivate' AND quantity_students < 4) "
                 + "AND date = '" + choosenDate + "';";
 
         try {
@@ -93,7 +95,7 @@ public class ClassesDaoImpl {
                 c.setType(rs.getString(4));
                 c.setQuantityStudents(rs.getInt(5));
 
-                timeAvailable.add(c);
+                classAvailable.add(c);
             }
             //con.commit();
             con.close();
@@ -101,7 +103,7 @@ public class ClassesDaoImpl {
         } catch (Exception e) {
             System.err.println(e);
         }
-        return timeAvailable;
+        return classAvailable;
 
     }
 
@@ -124,6 +126,35 @@ public class ClassesDaoImpl {
         }
 
     }
+    public int checkQuantityStudents (int classID){
+        Connection con = null;
+        int quantityStudents = 0;
+        
+        String sql = "SELECT quantity_students "
+                + "FROM classes "
+                + "WHERE idclasses = '"+classID+"';";
+        
+        try{
+            con = getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+        while (rs.next()){
+                quantityStudents = rs.getInt("quantity_students");
+
+                
+                
+            }    
+con.close();
+            
+            
+        }catch (Exception e) {
+            System.err.println(e);
+        }
+        return quantityStudents;
+            
+        
+        
+    }
     
     public void insertQuantityStudents(Classes c, int qs){
          Connection con = null;
@@ -144,5 +175,6 @@ public class ClassesDaoImpl {
         }
 
     }
+
 
 }

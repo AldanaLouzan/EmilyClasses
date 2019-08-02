@@ -9,7 +9,7 @@ import bookingclass.entity.*;
 
 //Originally created to link the Interface between the Servlets and the Controllers
 public class ClienteWeb{
-    IView clienteWeb;
+    IMenu clienteWeb;
 
     public ClienteWeb() {
     }

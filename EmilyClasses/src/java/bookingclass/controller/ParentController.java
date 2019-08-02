@@ -3,8 +3,9 @@ package bookingclass.controller;
 
 import bookingclass.entity.Parent;
 import dao.ParentDaoImpl;
+import viewInterface.IParent;
 
-public class ParentController 
+public class ParentController implements IParent
 {   
     private static int count = 0;
     ParentDaoImpl data = new ParentDaoImpl();

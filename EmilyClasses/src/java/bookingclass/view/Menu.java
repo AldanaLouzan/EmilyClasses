@@ -34,13 +34,9 @@ public class Menu {
                 }
                 case "2": {
                     //----Log-in---//
-                    System.out.print("User Name: ");
-                    String email = scan.nextLine();
-                    System.out.print("Password: ");
-                    //Verify password
-                    String password = scan.nextLine();
-                    mc.logIn(email, password);
+                    mc.logIn();
                     break;
+                    
                 }
           default: {
                     System.out.println("You chose and invalid option. Please, try again");

@@ -9,12 +9,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import viewInterface.IStudent;
 
 /**
  *
  * @author Aldana
  */
-public class StudentController {
+public class StudentController implements IStudent {
 
     Map<Integer, Student> studentRegistered = new HashMap();
     StudentDaoImpl data = new StudentDaoImpl();
@@ -47,14 +48,31 @@ public class StudentController {
 
     }
 
-    //Check the user´s password
-    public boolean checkUser(String email, String password) {
-        String correctPass = data.checkPass(email);//Password request to DB
+     public boolean checkUser(String email)  {
+        boolean registeredUser = data.checkUser(email);//Password request to DB
         
-        if (password == correctPass) {
+        if (registeredUser ==  true) {
             return true;
 
         }
-        return true;
+        return false;
+        
+    }
+   //Check the user´s password
+    public boolean checkUserPassword(String email, String password) {
+        String correctPass = data.checkPass(email);//Password request to DB
+        
+        if (password.equals(correctPass)) {
+            return true;
+
+        }
+        return false;
+        
+    }
+    
+     public int checkStudentId(String email){
+        int studentID = data.selectStudentID(email);
+        return studentID;
+        
     }
 }

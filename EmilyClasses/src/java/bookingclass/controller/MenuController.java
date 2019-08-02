@@ -2,6 +2,7 @@ package bookingclass.controller;
 
 import bookingclass.entity.Classes;
 import bookingclass.entity.Parent;
+import bookingclass.entity.Slot;
 import bookingclass.entity.Student;
 import bookingclass.view.Menu;
 import java.text.ParseException;
@@ -9,31 +10,32 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
-import viewInterface.IView;
+import viewInterface.IMenu;
 
 /**
  *
  * @author Aldana
  */
-public class MenuController implements IView {
+public class MenuController implements IMenu {
 
     //Variables to manage the interaction with user
     String choice = null;
     Scanner scan = new Scanner(System.in);
     Scanner kb = new Scanner(System.in);
-    
+
     StudentController sc = new StudentController();
     ParentController pc = new ParentController();
     ClassController cCon = new ClassController();
+    SlotController slotC = new SlotController();
     
 
-    @Override
-    //----Registration new IView----//
+   @Override
+    //----Registration new IMenu----//
     public void registration() throws ParseException {
         //Will need a Student and Parent object
         Student st = new Student();
         Parent p = new Parent();
-        
+
         //Variables to register a new Student
         String name, surname, phone, birth, college, level, email, pass;
         int age;
@@ -57,7 +59,7 @@ public class MenuController implements IView {
         st.setBirth(birth);
         age = sc.CalculateAge(bdate);   //Method to calculate the age
         st.setAge(age);
-        
+
         //Requesting Parent details
         if (age < 18) {
             p = this.parentDetails();
@@ -92,11 +94,10 @@ public class MenuController implements IView {
 
     //Parent details form
     public Parent parentDetails() {
-        
+
         Parent p = new Parent();
         String parentName, parentSurname, parentPhone;
 
-      
         System.out.println("As you are under 18 we need your parent detail");
 
         System.out.println("> Name: ");
@@ -116,25 +117,42 @@ public class MenuController implements IView {
         return p;
     }
 
-    //Login, checking password
-    public void logIn(String email, String pass) throws ParseException {
-        boolean check = sc.checkUser(email, pass);
-        if (check == true) {
-            privatePageNav();   //Giving access to the private page
+    //Login
+    @Override
+    public void logIn() throws ParseException {
+        System.out.print("User Name: ");
+        String email = scan.nextLine();
+        //Validate user
+        boolean checkUser = sc.checkUser(email);
+        if (checkUser == true) {
+            int studentID = sc.checkStudentId(email);
+            System.out.print("Password: ");
+            String password = scan.nextLine();
+            //Verify password
+            boolean checkPass = sc.checkUserPassword(email, password);
+
+            if (checkPass == true) {
+                privatePageNav(studentID);   //Giving access to the private page
+            } else {
+                System.out.println("Your password is incorrect");
+                logIn();
+                
+            }
+
         } else {
-            System.out.println("Your password is incorrect");
-            new Menu();
+            System.out.println("You are not a registered Student. Please Register as a new user");
+            registration();
         }
     }
 
     //Login, checking password
     public boolean login(String email, String pass)  {
-        boolean check = sc.checkUser(email, pass);
+        boolean check = sc.checkUserPassword(email, pass);
         return check;
     }
     
-    //----Private page Nav Bar----//
-    public void privatePageNav() throws ParseException {
+   //----Private page Nav Bar----//
+    public void privatePageNav(int studentID) throws ParseException {
         //NavBar
         System.out.println("Please select an option");
         System.out.println("1) Metodology");
@@ -145,20 +163,24 @@ public class MenuController implements IView {
             choice = scan.nextLine();
             switch (choice) {
                 case "1": {
-                    System.out.println("Emily is the best teacher");
+                    System.out.println("Emily is the best teacher");    //goes to methodology page
                     break;
                 }
                 case "2": {
-                    myAccount();    //Access to user Account
+                    myAccount(studentID);    //Access to user Account
                     break;
                 }
                 case "3": {
+                
                     new Menu();
+                 
                     break;
                 }
                 default: {
                     System.out.println("You chose and invalid option. Please, try again");
+        
                     new Menu();
+             
                     break;
                 }
             }
@@ -166,9 +188,8 @@ public class MenuController implements IView {
         } while (!choice.equals("7")); // end of loop do-while
 
     }
-
     //----My Account Nav Bar----//
-    public void myAccount() throws ParseException {
+    public void myAccount(int studentID) throws ParseException {
         System.out.println("Please select an option");
         System.out.println("1) Check my bookings");
         System.out.println("2) Book a class");
@@ -181,12 +202,14 @@ public class MenuController implements IView {
                     break;
                 }
                 case "2": {
-                    bookForm(); //Calling the Book Form menu
+                    bookForm(studentID); //Calling the Book Form menu
                     break;
                 }
                 default: {
                     System.out.println("You chose and invalid option. Please, try again");
+         
                     new Menu();
+         
                     break;
                 }
             }
@@ -195,22 +218,33 @@ public class MenuController implements IView {
         } while (!choice.equals("7")); // end of loop do-while
 
     }
+
     
-    //----Booking Form----//
-    public void bookForm() throws ParseException {
+      //----Booking Form----//
+    @Override
+    public void bookForm(int studentID) throws ParseException {
         Classes c = new Classes();
-        ArrayList<Classes> timeAvailable = new ArrayList();
-        
+        ArrayList<Classes> classAvailable = new ArrayList();
+
         chooseClassType(c); //Select Class type
         chooseDate(c);      //Select Day
-        timeAvailable = cCon.classType(c);  //Define Array with time availables that day
-        showTimeAvailable(timeAvailable, c);   //Show the times and Set time chosen
-        cCon.bookClass(c);
+        classAvailable = cCon.chechClassAvailable(c);  //Define Array with time availables that day
+        showTimeAvailable(classAvailable, c);   //Show the times and Set time chosen
+        int previousQuantityStudents = cCon.previousQuantityStudents (c.getId());
         
-    }
+        String bookingSubject = subjectChosen ();   //Define subject
+        String bookingComment = comment ();         //Define comment
+        Slot booking = slotC.booking(c, studentID, bookingSubject, bookingComment); //Create Slot
+        
+        System.out.println("Here are the details of the class booked:");
+        
+        showBooking(c, booking, previousQuantityStudents); //Show booking
+       }
 
-    //----Select and Set Class Type----//
-    public void chooseClassType(Classes c) throws ParseException {        
+
+  //----Select and Set Class Type----//
+    @Override
+    public void chooseClassType(Classes c) throws ParseException {
         System.out.println("Please select which type of class you want to book");
         System.out.println("1) Private");
         System.out.println("2) Semi-private");
@@ -221,22 +255,28 @@ public class MenuController implements IView {
             switch (choice) {
                 case "1": {
                     c.setType("private");
+                    c.setQuantityStudents(1);
                     break;
                 }
                 case "2": {
                     c.setType("semiprivate");
+                    c.setQuantityStudents(1);
                     break;
                 }
                 case "3": {
                     System.out.println("How many friends are coming with you?");
                     int groupQuantity = kb.nextInt();
+                    if (groupQuantity > 3){
+                        System.out.println("Sorry the maximum of Students are 4");
+                        chooseClassType(c);
+                    }
                     c.setType("ingroup");
-                    c.setQuantityStudents(groupQuantity);
+                    c.setQuantityStudents((groupQuantity+1));
                     break;
                 }
                 default: {
                     System.out.println("You chose and invalid option. Please, try again");
-                    myAccount();
+                    chooseClassType(c);
                     break;
                 }
             }
@@ -245,31 +285,129 @@ public class MenuController implements IView {
     }
     
     //Select and set Class Date
-    public void chooseDate(Classes c) throws ParseException{
+    @Override
+    public void chooseDate(Classes c) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date;
-        
+
         System.out.print("Please select a day:");
         String day = scan.nextLine();
         date = sdf.parse(day);
         c.setDate(date);
+
+    }
+
+    //Show the time available stored in ArrayList and Set the time and ID to the class
+    @Override
+    public void showTimeAvailable(ArrayList<Classes> timeAvailable, Classes c) {
+        for (int i = 0; i < timeAvailable.size(); i++) {
+            System.out.println((i + 1) + ") " + timeAvailable.get(i).getTime());
+        }
+
+        System.out.println("Please select a time");
+        int choice = kb.nextInt();
+        int timeChosen = timeAvailable.get(choice - 1).getTime();
+        int IDClassChosen = timeAvailable.get(choice - 1).getId();
+        c.setTime(timeChosen);  //Set time chosen
+        c.setId(IDClassChosen); //Set the ID of the class chosen
         
     }
     
-    //Show the time available stored in ArrayList and Set the time and ID to the class
+ 
     @Override
-    public void showTimeAvailable(ArrayList<Classes> timeAvailable, Classes c){
-        for (int i = 0; i<timeAvailable.size(); i++){
-            System.out.println((i+1)+") "+timeAvailable.get(i).getTime());
-        }
+    public String subjectChosen (){
+        String subject = null;
+        System.out.println("Please select which subject you want to learn");
         
-        System.out.println("Please select a time");
-        int choice = kb.nextInt();
-        int timeChosen = timeAvailable.get(choice-1).getTime();
-        int IDClassChosen = timeAvailable.get(choice-1).getId();
-        int quantityStudents = timeAvailable.get(choice-1).getQuantityStudents();
-        c.setTime(timeChosen);  //Set time chosen
-        c.setId(IDClassChosen); //Set the ID of the class chosen
-        c.setQuantityStudents(quantityStudents);    //Set quantity Students of the class chosen    
+        System.out.println("1) Mathematics");
+        System.out.println("2) Physics");
+        System.out.println("3) Chemistry");
+
+        do {
+            choice = scan.nextLine();
+            switch (choice) {
+                case "1": {
+                    subject = "M";
+                    break;
+                }
+                case "2": {
+                    subject = "P";
+                    break;
+                }
+                case "3": {
+                    subject = "C";
+                    break;
+                }
+                default: {
+                    System.out.println("You chose and invalid option. Please, try again");
+                
+                    subjectChosen();
+                    break;
+                }
+            }
+
+            break;
+        } while (!choice.equals("7")); // end of loop do-while
+        return subject;
     }
+    
+    @Override
+    public String comment (){
+        String comment = null;
+        System.out.println("Would you like to add a comment? Y/N");
+        do {
+            choice = scan.nextLine();
+            switch (choice) {
+                case "Y": {
+                    comment = scan.nextLine();
+                    break;
+                }
+                case "N": {
+                    comment = "no comments";
+                    break;
+                }
+                 default: {
+                    System.out.println("You chose and invalid option. Please, try again");
+                    comment();
+                    break;
+                }
+            }
+
+            break;
+        } while (!choice.equals("7")); // end of loop do-while
+        return comment;
+    }
+    
+    @Override
+    public void showBooking (Classes c, Slot s, int previousQS){
+        
+        System.out.println("Date: "+c.getDate()+" | Time: "+c.getTime()
+                           +" | Type: "+c.getType()+" | Price: "+s.getPrice()
+                           +" | Subject: "+s.getSubject()+ " | Comments: "+s.getComment());
+        
+        System.out.println("Do you confirm your booking? Y/N");
+        do {
+            choice = scan.nextLine();
+            switch (choice) {
+                case "Y": {
+                      s.setStatus("confirmed");
+                      slotC.confirmBooking(cCon, c,s, previousQS);
+                      System.out.println("Your Class has been booked successfully");
+                }
+                case "2": {
+                    
+                    break;
+                }
+                 default: {
+                    System.out.println("You chose and invalid option. Please, try again");
+                    showBooking(c, s, previousQS);
+                    break;
+                }
+            }
+
+        } while (!choice.equals("7")); // end of loop do-while
+ 
+    }
+        
+        
 }
