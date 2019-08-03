@@ -129,14 +129,18 @@ public class StudentDaoImpl implements IStudentDao
         public String checkPass (String email){
         Connection con = null;
         String pass = null;
-        
-        String sql = "SELECT password FROM student WHERE email = '"+email+"';";
+       
+        //String sql = "SELECT password FROM student WHERE email = '"+email+"';";
+        String sql2 = "SELECT password FROM student WHERE email = ?";
         
         try{
             con = getConnection();
-            st = con.createStatement();
-            rs = st.executeQuery(sql);
-            while (rs.next()){
+            pst = con.prepareStatement(sql2);
+            pst.setString(1, email);
+            rs = pst.executeQuery();
+            //st2 = con.createStatement();
+            //rs2 = st2.executeQuery(sql2);
+        while (rs.next()){
                 pass = rs.getString("password");
             }
 

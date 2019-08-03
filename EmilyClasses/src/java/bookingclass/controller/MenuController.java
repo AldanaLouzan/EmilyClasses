@@ -59,12 +59,11 @@ public class MenuController implements IMenu {
         st.setBirth(birth);
         age = sc.CalculateAge(bdate);   //Method to calculate the age
         st.setAge(age);
-
+        boolean requestParent = sc.studentUnder18(age);
         //Requesting Parent details
-        if (age < 18) {
+        if (requestParent == true) {
             p = this.parentDetails();
             pc.registerParent(p);
-
             st.setParent(p);
         }
 
@@ -145,12 +144,24 @@ public class MenuController implements IMenu {
         }
     }
 
+    //public boolean loginCheck (String email, String pass){
+    public boolean login (String email, String pass){
+        boolean checkUser = sc.checkUser(email);
+        boolean checkPass = sc.checkUserPassword(email, pass);
+
+        if (checkUser == true && checkPass == true) {
+            //int studentID = sc.checkStudentId(email);
+            return true; // give access to privatePageNav
+            }  
+    return false;        
+    }
+
     //Login, checking password
-    public boolean login(String email, String pass)  {
+    public boolean login2(String email, String pass)  {
         boolean check = sc.checkUserPassword(email, pass);
         return check;
-    }
-    
+   }
+   
    //----Private page Nav Bar----//
     public void privatePageNav(int studentID) throws ParseException {
         //NavBar

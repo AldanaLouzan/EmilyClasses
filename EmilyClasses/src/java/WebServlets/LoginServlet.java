@@ -79,7 +79,7 @@ public class LoginServlet extends HttpServlet {
                 errorList.add(Errors.ERROR_LOGIN);
                 request.setAttribute(UIConstants.ERROR_LIST, errorList);
         } else {
-                jspPage = Pages.HOME2;
+                jspPage = Pages.HOME;
         }
 				
         processRequest(jspPage, request, response);

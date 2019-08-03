@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package WebUtil;
 
 /**
@@ -12,7 +7,9 @@ package WebUtil;
 public class Pages {
 
 	public static final String INDEX = "/index.jsp";
-	public static final String HOME = "/home.jsp";
-        public static final String HOME2 = "/index2.html";
+        public static final String HOME = "/home.jsp";
+        public static final String METODOLOGY = "/metodology.jsp";
+        public static final String REGISTER = "/registerForm.jsp";
+        public static final String MYACCOUNT = "/myAccount.jsp";
 	
 }

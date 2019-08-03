@@ -10,6 +10,7 @@ import java.util.Date;
  */
 public interface IStudent {
     public int CalculateAge(Date bdate) throws ParseException;
+    public boolean studentUnder18(int age);
     public void registerStudent(Student s);
     public boolean checkUser(String email);
     public boolean checkUserPassword(String email, String password);

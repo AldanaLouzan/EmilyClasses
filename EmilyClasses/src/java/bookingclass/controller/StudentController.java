@@ -37,6 +37,13 @@ public class StudentController implements IStudent {
         return age;
 
     }
+    
+    public boolean studentUnder18(int age){
+        if (age < 18){
+            return true;
+        }
+        return false;
+    }
 
     //Register student depending on their age
     public void registerStudent(Student s) {
@@ -59,6 +66,14 @@ public class StudentController implements IStudent {
         
     }
    //Check the user´s password
+
+    /**
+     *
+     * @param email
+     * @param password
+     * @return
+     */
+    @Override
     public boolean checkUserPassword(String email, String password) {
         String correctPass = data.checkPass(email);//Password request to DB
         
