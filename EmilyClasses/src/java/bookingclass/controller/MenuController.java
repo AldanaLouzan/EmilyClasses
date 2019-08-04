@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import viewInterface.IMenu;
 
@@ -55,9 +57,9 @@ public class MenuController implements IMenu {
 
         System.out.println("> Birth date (yyyy-MM-dd): ");
         birth = scan.nextLine();
-        bdate = sdf.parse(birth);
+        //bdate = sdf.parse(birth);
         st.setBirth(birth);
-        age = sc.CalculateAge(bdate);   //Method to calculate the age
+        age = sc.CalculateAge(birth);   //Method to calculate the age
         st.setAge(age);
         boolean requestParent = sc.studentUnder18(age);
         //Requesting Parent details
@@ -87,7 +89,7 @@ public class MenuController implements IMenu {
         pass = scan.nextLine();
         st.setPassword(pass);
 
-        sc.registerStudent(st); //Calling controller to register Student
+        boolean success = sc.registerStudent(st); //Calling controller to register Student
 
     }
 
@@ -239,8 +241,9 @@ public class MenuController implements IMenu {
 
         chooseClassType(c); //Select Class type
         chooseDate(c);      //Select Day
-        classAvailable = cCon.chechClassAvailable(c);  //Define Array with time availables that day
-        showTimeAvailable(classAvailable, c);   //Show the times and Set time chosen
+        classAvailable = cCon.checkClassAvailable(c);  //Define Array with time availables that day
+        timeAvailable(classAvailable);   //Show the times and Set time chosen
+        
         int previousQuantityStudents = cCon.previousQuantityStudents (c.getId());
         
         String bookingSubject = subjectChosen ();   //Define subject
@@ -309,8 +312,8 @@ public class MenuController implements IMenu {
     }
 
     //Show the time available stored in ArrayList and Set the time and ID to the class
-    @Override
-    public void showTimeAvailable(ArrayList<Classes> timeAvailable, Classes c) {
+    /*@Override
+    public void timeAvailable(ArrayList<Classes> timeAvailable, Classes c) {
         for (int i = 0; i < timeAvailable.size(); i++) {
             System.out.println((i + 1) + ") " + timeAvailable.get(i).getTime());
         }
@@ -322,8 +325,17 @@ public class MenuController implements IMenu {
         c.setTime(timeChosen);  //Set time chosen
         c.setId(IDClassChosen); //Set the ID of the class chosen
         
+    }*/
+    public Map <Integer, Integer> timeAvailable(ArrayList<Classes> classAvailable) {
+        Map <Integer, Integer> timeAvailable = new HashMap();
+        
+        for (int i = 0; i < classAvailable.size(); i++) {
+            timeAvailable.put(classAvailable.get(i).getId(), classAvailable.get(i).getTime());
+        }
+
+        return timeAvailable;
     }
-    
+
  
     @Override
     public String subjectChosen (){

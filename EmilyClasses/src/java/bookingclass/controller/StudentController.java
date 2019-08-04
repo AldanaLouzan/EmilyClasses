@@ -3,6 +3,7 @@ package bookingclass.controller;
 import dao.StudentDaoImpl;
 import bookingclass.entity.Student;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Calendar;
@@ -21,7 +22,11 @@ public class StudentController implements IStudent {
     StudentDaoImpl data = new StudentDaoImpl();
 
     //Calculate age, to get Parent details if student under 18
-    public int CalculateAge(Date bdate) throws ParseException {
+    public int CalculateAge(String birth) throws ParseException {
+        Date bdate =  new Date ();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+        bdate = sdf.parse(birth);
         int age;
 
         Calendar c = Calendar.getInstance();
@@ -29,9 +34,9 @@ public class StudentController implements IStudent {
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH) + 1;
         int date = c.get(Calendar.DATE);
-        LocalDate birth = LocalDate.of(year, month, date);
+        LocalDate birthday = LocalDate.of(year, month, date);
         LocalDate current = LocalDate.now();
-        Period diff = Period.between(birth, current);
+        Period diff = Period.between(birthday, current);
         age = diff.getYears();
 
         return age;
@@ -46,11 +51,11 @@ public class StudentController implements IStudent {
     }
 
     //Register student depending on their age
-    public void registerStudent(Student s) {
+    public boolean registerStudent(Student s) {
         if (s.getAge() < 18) {
-            data.insertStudentUnder18(s);   //Calling DAO
+            return data.insertStudentUnder18(s);   //Calling DAO
         } else {
-            data.insertStudentOver18(s);
+            return data.insertStudentOver18(s);
         }
 
     }

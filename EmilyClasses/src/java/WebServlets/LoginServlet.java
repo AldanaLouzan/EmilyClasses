@@ -70,6 +70,7 @@ public class LoginServlet extends HttpServlet {
         List<String> errorList = new ArrayList<String>();
                 
         Student user = new Student();
+        
         user.setEmail((String) request.getParameter(UIConstants.USUARIO));
         user.setPassword((String) request.getParameter(UIConstants.PASSWORD));
                

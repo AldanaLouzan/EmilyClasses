@@ -1,3 +1,4 @@
+<%@page import="WebUtil.UIConstants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,50 +74,50 @@ $('.datepicker').datepicker();
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-6 order-lg-2">
-          <form action="/action_page.php">
+          <form action="RegisterServlet" method="post">
             <div class="form-group">
               <label for="name">Name(*):</label>
-              <input type="text" class="form-control" id="name">
+              <input type="text" class="form-control" id="name" name="<%=UIConstants.STNAME%>" value="">
             </div>
             <div class="form-group">
               <label for="surname">Last Name(*):</label>
-              <input type="text" class="form-control" id="surname">
+              <input type="text" class="form-control" id="surname"name="<%=UIConstants.STSURNAME%>" value="">
             </div>
             <div class="form-group">
               <label for="phone">Phone(*):</label>
-              <input type="tel" class="form-control" id="phone">
+              <input type="tel" class="form-control" id="phone" name="<%=UIConstants.STPHONE%>" value="">
             </div>
             <div class="form-group">
               <label for="birth">Birth(*):</label>
-              <input type="text" class="form-control" id="parentName"  placeholder="YYYY-MM-DD">
+              <input type="text" class="form-control" id="parentName"  placeholder="YYYY-MM-DD" name="<%=UIConstants.STBIRTH%>" value="">
             </div>
             <div class="form-group" style="display:none">
               <label for="parentName">Name(*):</label>
-              <input type="text" class="form-control" id="parentName">
+              <input type="text" class="form-control" id="parentName" name="<%=UIConstants.PNAME%>" value="">
             </div>
             <div class="form-group" style="display:none">
               <label for="parentLastName">Last Name(*):</label>
-              <input type="text" class="form-control" id="parentLastName">
+              <input type="text" class="form-control" id="parentLastName" name="<%=UIConstants.PSURNAME%>" value="">
             </div>
             <div class="form-group" style="display:none">
               <label for="parentPhone">Phone(*):</label>
-              <input type="tel" class="form-control" id="parentPhone">
+              <input type="tel" class="form-control" id="parentPhone" name="<%=UIConstants.PPHONE%>" value="">
             </div>
             <div class="form-group">
               <label for="email">E-mail(*):</label>
-              <input type="email" class="form-control" id="email">
+              <input type="email" class="form-control" id="email" name="<%=UIConstants.USUARIO%>" value="">
             </div>
             <div class="form-group">
               <label for="psw">Password(*):</label>
-              <input type="password" class="form-control" id="psw">
+              <input type="password" class="form-control" id="psw" name="<%=UIConstants.PASSWORD%>" value="">
             </div>
             <div class="form-group">
               <label for="college">College/School:</label>
-              <input type="text" class="form-control" id="college">
+              <input type="text" class="form-control" id="college" name="<%=UIConstants.STCOLLEGE%>" value="">
             </div>
             <div class="form-group">
               <label for="level">Level:</label>
-              <input type="text" class="form-control" id="level">
+              <input type="text" class="form-control" id="level" name="<%=UIConstants.STLEVEL%>" value="">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>

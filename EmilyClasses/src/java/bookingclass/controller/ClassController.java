@@ -14,7 +14,7 @@ public class ClassController implements IClass {
     ClassesDaoImpl data = new ClassesDaoImpl();
     
     //Store time available for the type of class and date selected
-    public ArrayList<Classes> chechClassAvailable(Classes c){
+    public ArrayList<Classes> checkClassAvailable(Classes c){
         
         ArrayList <Classes> classAvailable = new ArrayList();
         String classType = c.getType();

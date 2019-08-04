@@ -17,8 +17,9 @@ public class StudentDaoImpl implements IStudentDao
     ResultSet rs;
     
     //----Insert Student under 18----//
-    public void insertStudentUnder18(Student st) {
+    public boolean insertStudentUnder18(Student st) {
         Connection con = null;
+        boolean value;
         
         String sql = "INSERT INTO STUDENT (s_name, s_surname, phone, email, birth, age, college, level, idparent, password) "
                 + "VALUES(?,?,?,?,?,?,?,?,?,?)";
@@ -43,24 +44,26 @@ public class StudentDaoImpl implements IStudentDao
             
             if(res > 0){
                 System.out.println("You have been registered");
+                value = true;
             }else{
                 System.out.println("Error");
+                value=false;
             }
-            
-            //con.commit();
+
             con.close();
-            
-    
+            return value;
+   
         } catch (Exception e) {
             System.err.println(e);
+            return false;
         }
-
-
+ 
     }
     
     //----Insert Student Over 18, without paretn details----//
-        public void insertStudentOver18(Student st) {
+    public boolean insertStudentOver18(Student st) {
         Connection con = null;
+        boolean value;
         String sql = "INSERT INTO STUDENT (age, birth, college, email, level, phone, s_name, s_surname, password) "
                 + "VALUES(?,?,?,?,?,?,?,?,?)";
 
@@ -83,17 +86,18 @@ public class StudentDaoImpl implements IStudentDao
             
             if(res > 0){
                  System.out.println("You have been registered");
+                 value = true;
+                 
             }else{
                 System.out.println("Error");
+                value=false;
             }
-            
-            //con.commit();
             con.close();
-    
+            return value;
         } catch (Exception e) {
             System.err.println(e);
-        }
-        
+            return false;
+        }    
         
     }
         

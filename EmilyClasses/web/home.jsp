@@ -40,10 +40,7 @@
             </li>            
             <li class="nav-item">
               <a class="nav-link" href="metodology.jsp">Metodology</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./privatepage2.html#contactform">Newsletter</a>
-            </li>  
+            </li> 
             <li class="nav-item">
               <a class="nav-link" href="myAccount.jsp">My Account</a>
             </li>  

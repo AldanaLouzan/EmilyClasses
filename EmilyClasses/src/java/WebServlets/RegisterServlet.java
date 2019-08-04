@@ -4,9 +4,11 @@ import WebUtil.Errors;
 import WebUtil.Pages;
 import WebUtil.UIConstants;
 import bookingclass.controller.MenuController;
+import bookingclass.controller.StudentController;
 import bookingclass.entity.Student;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -29,7 +31,7 @@ public class RegisterServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(String jsp, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (jsp != null) {
         	
@@ -69,21 +71,40 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        MenuController mc = new MenuController();
-        String jspPage = Pages.INDEX;
+        //MenuController mc = new MenuController();
+        StudentController sc = new StudentController();
+        String jspPage = Pages.REGISTER;
         List<String> errorList = new ArrayList<String>();
                 
         Student user = new Student();
+        
+        user.setName((String) request.getParameter(UIConstants.STNAME));
+        user.setSurname((String) request.getParameter(UIConstants.STSURNAME));
+        user.setPhone((String) request.getParameter(UIConstants.STPHONE));
+        user.setBirth((String) request.getParameter(UIConstants.STBIRTH));
         user.setEmail((String) request.getParameter(UIConstants.USUARIO));
         user.setPassword((String) request.getParameter(UIConstants.PASSWORD));
-               
-        boolean success = mc.login(user.getEmail(), user.getPassword());
-
+        user.setCollege((String) request.getParameter(UIConstants.STCOLLEGE));
+        user.setLevel((String) request.getParameter(UIConstants.STLEVEL));
+        /*
+        user.setEmail((String) request.getParameter(UIConstants.));
+        user.setEmail((String) request.getParameter(UIConstants.USUARIO));
+        user.setEmail((String) request.getParameter(UIConstants.USUARIO));
+        */
+        try{
+           int age = sc.CalculateAge(user.getBirth());
+           user.setAge(age);
+        }catch(Exception e){
+            System.err.println(e);
+        }
+        
+        boolean success = sc.registerStudent(user);
+        
         if (!success) {
-                errorList.add(Errors.ERROR_LOGIN);
+                errorList.add(Errors.ERROR_STUDENT_REGISTRATION);
                 request.setAttribute(UIConstants.ERROR_LIST, errorList);
         } else {
-                jspPage = Pages.HOME;
+                jspPage = Pages.INDEX;
         }
 				
         processRequest(jspPage, request, response);
