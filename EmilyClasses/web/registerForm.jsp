@@ -69,61 +69,58 @@ $('.datepicker').datepicker();
         <div class="bg-circle-4 bg-circle"></div>
     </header>
     
-    <section>
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-lg-6 order-lg-2">
-            <form action="/action_page.php">
-              <div class="form-group">
-                <label for="name">Name(*):</label>
-                <input type="name" class="form-control" id="name">
-              </div>
-              <div class="form-group">
-                <label for="surname">Last Name(*):</label>
-                <input type="surname" class="form-control" id="surname">
-              </div>
-              <div class="form-group">
-                <label for="phone">Phone(*):</label>
-                <input type="phone" class="form-control" id="phone">
-              </div>
-              <div class="input-group date" data-provide="datepicker">
-                <label for="birth">Birth(*):</label>
-                <input type="text" class="form-control" id="birth">
-                <div class="input-group-addon">
-                  <span class="glyphicon glyphicon-th"></span>
-              </div>
-              </div>
-              <div class="form-group" style="display:none">
-                <label for="parentName">Name(*):</label>
-                <input type="parentName" class="form-control" id="parentName">
-              </div>
-              <div class="form-group" style="display:none">
-                <label for="parentLastName">Last Name(*):</label>
-                <input type="parentLastName" class="form-control" id="parentLastName">
-              </div>
-              <div class="form-group"style="display:none">
-                <label for="parentPhone">Phone(*):</label>
-                <input type="parentPhone" class="form-control" id="parentPhone">
-              </div>
-              <div class="form-group">
-                <label for="email">E-mail(*):</label>
-                <input type="email" class="form-control" id="email">
-              </div>
-              <div class="form-group">
-                <label for="psw">Password(*):</label>
-                <input type="password" class="form-control" id="psw">
-              </div>
-              <div class="form-group">
-                <label for="college">College/School:</label>
-                <input type="college" class="form-control" id="college">
-              </div>
-              <div class="form-group">
-                <label for="level">Level:</label>
-                <input type="level" class="form-control" id="level">
-              </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-          </div>
+  <section>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 order-lg-2">
+          <form action="/action_page.php">
+            <div class="form-group">
+              <label for="name">Name(*):</label>
+              <input type="text" class="form-control" id="name">
+            </div>
+            <div class="form-group">
+              <label for="surname">Last Name(*):</label>
+              <input type="text" class="form-control" id="surname">
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone(*):</label>
+              <input type="tel" class="form-control" id="phone">
+            </div>
+            <div class="form-group">
+              <label for="birth">Birth(*):</label>
+              <input type="text" class="form-control" id="parentName"  placeholder="YYYY-MM-DD">
+            </div>
+            <div class="form-group" style="display:none">
+              <label for="parentName">Name(*):</label>
+              <input type="text" class="form-control" id="parentName">
+            </div>
+            <div class="form-group" style="display:none">
+              <label for="parentLastName">Last Name(*):</label>
+              <input type="text" class="form-control" id="parentLastName">
+            </div>
+            <div class="form-group" style="display:none">
+              <label for="parentPhone">Phone(*):</label>
+              <input type="tel" class="form-control" id="parentPhone">
+            </div>
+            <div class="form-group">
+              <label for="email">E-mail(*):</label>
+              <input type="email" class="form-control" id="email">
+            </div>
+            <div class="form-group">
+              <label for="psw">Password(*):</label>
+              <input type="password" class="form-control" id="psw">
+            </div>
+            <div class="form-group">
+              <label for="college">College/School:</label>
+              <input type="text" class="form-control" id="college">
+            </div>
+            <div class="form-group">
+              <label for="level">Level:</label>
+              <input type="text" class="form-control" id="level">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
           <div class="col-lg-6 order-lg-1">
             <div class="p-5">
               <h2 class="display-4">Science is the door to creativity and innovation</h2>
