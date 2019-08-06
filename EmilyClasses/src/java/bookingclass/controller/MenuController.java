@@ -29,6 +29,7 @@ public class MenuController implements IMenu {
     ParentController pc = new ParentController();
     ClassController cCon = new ClassController();
     SlotController slotC = new SlotController();
+    TeacherController tt = new TeacherController();
     
 
    @Override
@@ -146,23 +147,41 @@ public class MenuController implements IMenu {
         }
     }
 
-    //public boolean loginCheck (String email, String pass){
-    public boolean login (String email, String pass){
+    public int login(String email, String pass) {
+        int value;
+        boolean checkTeacher = tt.checkTeacher(email);
+
+        if (checkTeacher == true) {
+            boolean checkTeacherPass = tt.checkTeacherPass(pass);
+            if (checkTeacherPass == true) {
+                value = 1;  //Access to Teacher Account
+            } else {
+                value = 0;  //Password wrong
+            }
+        } else {
+            boolean checkUser = sc.checkUser(email);
+            boolean checkPass = sc.checkUserPassword(email, pass);
+
+            if (checkUser == true && checkPass == true) {
+                value = 2;  // Access to Student Accoun
+            } else {
+                value = 0;  //Password or user wrong
+            }
+            }
+        return value;
+    }
+
+    /*public boolean login (String email, String pass){
         boolean checkUser = sc.checkUser(email);
         boolean checkPass = sc.checkUserPassword(email, pass);
 
         if (checkUser == true && checkPass == true) {
-            //int studentID = sc.checkStudentId(email);
+            
             return true; // give access to privatePageNav
             }  
     return false;        
-    }
+    }*/
 
-    //Login, checking password
-    public boolean login2(String email, String pass)  {
-        boolean check = sc.checkUserPassword(email, pass);
-        return check;
-   }
    
    //----Private page Nav Bar----//
     public void privatePageNav(int studentID) throws ParseException {
@@ -239,9 +258,9 @@ public class MenuController implements IMenu {
         Classes c = new Classes();
         ArrayList<Classes> classAvailable = new ArrayList();
 
-        chooseClassType(c); //Select Class type
-        chooseDate(c);      //Select Day
-        classAvailable = cCon.checkClassAvailable(c);  //Define Array with time availables that day
+        //chooseClassType(c); //Select Class type
+        //chooseDate(c);      //Select Day
+        //classAvailable = cCon.checkClassAvailable(c.);  //Define Array with time availables that day
         timeAvailable(classAvailable);   //Show the times and Set time chosen
         
         int previousQuantityStudents = cCon.previousQuantityStudents (c.getId());
@@ -300,15 +319,15 @@ public class MenuController implements IMenu {
     
     //Select and set Class Date
     @Override
-    public void chooseDate(Classes c) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    public Date chooseDate(String day) throws ParseException {
         Date date;
-
-        System.out.print("Please select a day:");
-        String day = scan.nextLine();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+        /*System.out.print("Please select a day:");
+        String day = scan.nextLine();*/
         date = sdf.parse(day);
-        c.setDate(date);
-
+        //c.setDate(date);
+        return date;
     }
 
     //Show the time available stored in ArrayList and Set the time and ID to the class

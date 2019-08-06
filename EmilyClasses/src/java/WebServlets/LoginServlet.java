@@ -74,14 +74,25 @@ public class LoginServlet extends HttpServlet {
         user.setEmail((String) request.getParameter(UIConstants.USUARIO));
         user.setPassword((String) request.getParameter(UIConstants.PASSWORD));
                
-        boolean success = mc.login(user.getEmail(), user.getPassword());
+        //boolean success = mc.login(user.getEmail(), user.getPassword());
+        int value = mc.login(user.getEmail(), user.getPassword());
 
+        /*
         if (!success) {
                 errorList.add(Errors.ERROR_LOGIN);
                 request.setAttribute(UIConstants.ERROR_LIST, errorList);
         } else {
                 jspPage = Pages.HOME;
-        }
+        }*/
+        
+        if (value == 1){
+            jspPage = Pages.TEACHERACCOUNT;
+        } else if (value == 2){
+                jspPage = Pages.HOME;
+            }else{
+                errorList.add(Errors.ERROR_LOGIN);
+                request.setAttribute(UIConstants.ERROR_LIST, errorList);  
+                    }
 				
         processRequest(jspPage, request, response);
     }
