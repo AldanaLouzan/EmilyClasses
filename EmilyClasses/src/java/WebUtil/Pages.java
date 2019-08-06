@@ -1,9 +1,5 @@
 package WebUtil;
 
-/**
- *
- * @author jucarro
- */
 public class Pages {
 
 	public static final String INDEX = "/index.jsp";
@@ -14,6 +10,5 @@ public class Pages {
         public static final String CLASSSETTING = "/classSetting.jsp";
         public static final String BOOKCLASS = "/bookClass.jsp";
         public static final String TEACHERACCOUNT = "/teacherAccount.jsp";
-        
-	
+ 
 }

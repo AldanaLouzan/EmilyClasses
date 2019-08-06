@@ -4,6 +4,7 @@ import bookingclass.entity.Classes;
 import bookingclass.entity.Parent;
 import bookingclass.entity.Slot;
 import bookingclass.entity.Student;
+import bookingclass.entity.Teacher;
 import bookingclass.view.Menu;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -149,8 +150,10 @@ public class MenuController implements IMenu {
 
     public int login(String email, String pass) {
         int value;
+        //Teacher newT = tt.createTeacher();
+        //boolean checkTeacher = tt.checkTeacher(newT.getEmail());
         boolean checkTeacher = tt.checkTeacher(email);
-
+        
         if (checkTeacher == true) {
             boolean checkTeacherPass = tt.checkTeacherPass(pass);
             if (checkTeacherPass == true) {

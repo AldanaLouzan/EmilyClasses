@@ -81,17 +81,17 @@
         <div class="container">
           <div class="row align-items-center">
             <div class="col-lg-6 order-lg-2">
-              <form action="BookClassServlet" method="post">
+              <form action="BookClassServlet" method="get">
                 <div class="form-group ">
                 <jsp:useBean id="cc" class="bookingclass.controller.ClassController" scope="page"></jsp:useBean>
                 <%
-                    session.getAttribute(classSet);
-                    ResultSet rs = cc.checkClassAvailable(%>classSet.);
+
+                    String type = request.getParameter("classType");
+                    String date = request.getParameter("classDate");
+                    ResultSet rs = cc.checkClassAvailable(type,date);
                     
-                    //ResultSet rs = cc.checkClassAvailable("private","2019-07-23");
-                    //ResultSet rs = cc.checkClassAvailable("private", "2019-07-23");
                 %>  
-                <div class="form-group ">
+                <!--<div class="form-group ">-->
                 <!--<label class="control-label requiredField" for="select">
                  Select a Time
                 </label>-->

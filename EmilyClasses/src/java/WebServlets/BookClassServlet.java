@@ -1,6 +1,7 @@
 package WebServlets;
 
 import WebUtil.Pages;
+import bookingclass.entity.Classes;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -9,11 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Eoin
- */
 @WebServlet(name = "BookClass", urlPatterns = {"/BookClass"})
 public class BookClassServlet extends HttpServlet {
 
@@ -53,7 +51,11 @@ public class BookClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doPost(request, response);
+        HttpSession session = request.getSession();
+        String type = (String) session.getAttribute("classType");
+        String date = (String) session.getAttribute("classDate");
+        //response.sendRedirect("/bookClass.jsp");
+        response.sendRedirect(request.getContextPath()+"/bookClass.jsp");
     }
 
     /**
@@ -67,7 +69,18 @@ public class BookClassServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         String jspPage = Pages.BOOKCLASS;
+                
+        Classes classNew = new Classes();
+        
+        HttpSession session = request.getSession();
+        session.setAttribute("classNew", classNew);
+        session.setAttribute("type", classNew.getType());
+        
+        //Mostrar tiempo
+        
+        
     }
 
     /**

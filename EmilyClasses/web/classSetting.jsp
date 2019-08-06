@@ -147,10 +147,10 @@
              <div class="form-group">
                 <label class="control-label requiredField" for="date"> Pick a date</label>
                 </label>
-                <!--<input class="form-control" id="date" placeholder="YYYY-MM-DD" type="text" name="<%=UIConstants.CDATE%>" value=""/>-->
-                <input type="date" id="date" class="form-control" name="<%=UIConstants.CDATE%>" value="">
+                <input class="form-control" id="date" placeholder="YYYY-MM-DD" type="text" name="<%=UIConstants.CDATE%>" value=""/>
+                <!--<input type="date" id="date" class="form-control" name="<%=UIConstants.CDATE%>" value="">-->
              </div>
-                              <div class="form-group ">
+             <div class="form-group ">
                 <label class="control-label requiredField">
                  Select your subject
                 </label>

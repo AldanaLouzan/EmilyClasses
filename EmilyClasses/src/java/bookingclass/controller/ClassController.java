@@ -22,21 +22,21 @@ public class ClassController implements IClass {
     //Store time available for the type of class and date selected
     //public ArrayList<Classes> checkClassAvailable(Classes c){
     @Override
-    //public ResultSet checkClassAvailable(String classType, String date) throws ParseException{    
-    public ResultSet checkClassAvailable(String classType, Date date) {
+    public ResultSet checkClassAvailable(String classType, String date) throws ParseException{    
+    //public ResultSet checkClassAvailable(String classType, Date date) {
             //ArrayList <Classes> classAvailable = new ArrayList();
         //String classType = c.getType();
-        /*Date d;
+        Date d;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        d = sdf.parse(date);*/
+        d = sdf.parse(date);
         ResultSet rs;
         
         if (classType == "private" || classType == "ingroup"){
             //classAvailable = data.selectEmptyClass(c.getDate()); //Select depending on the type of class
-            rs = data.selectEmptyClass(date);
+            rs = data.selectEmptyClass(d);
         }else{
             //classAvailable = data.selectSemiprivateClass(c.getDate());   //Select if class = semiprivate
-            rs = data.selectSemiprivateClass(date);
+            rs = data.selectSemiprivateClass(d);
         }
         return rs;
         

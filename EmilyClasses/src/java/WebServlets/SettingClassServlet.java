@@ -87,19 +87,24 @@ public class SettingClassServlet extends HttpServlet {
         Classes c = new Classes();
         
         c.setType((String) request.getParameter(UIConstants.CTYPE));
-        int groupQuantity = Integer.parseInt((String) request.getParameter(UIConstants.GROUPQUANTITY));
-        c.setQuantityStudents(cc.quantityStudents(c.getType(), 0));
-        try {
+        //int groupQuantity = Integer.parseInt((String) request.getParameter(UIConstants.GROUPQUANTITY));
+        //c.setQuantityStudents(cc.quantityStudents(c.getType(), 0));
+        
+        /*try {
             c.setDate(mc.chooseDate((String) request.getParameter(UIConstants.CDATE)));
         } catch (ParseException ex) {
             Logger.getLogger(SettingClassServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }        
-        int classID = cc.classId((String) request.getParameter(UIConstants.CID));
-        c.setId(classID);
+        }*/        
+        
+        //int classID = cc.classId((String) request.getParameter(UIConstants.CID));
+        //c.setId(classID);
         //c.setTime(cc.selectTime(c));
         
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
         session.setAttribute("classSet", c);
+        session.setAttribute("classType", c.getType());
+        //session.setAttribute("classDate", c.getDate());
+        session.setAttribute("classDate", (String) request.getParameter(UIConstants.CDATE));
   
         /*boolean success = sc.registerStudent(user);
         
