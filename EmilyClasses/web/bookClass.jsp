@@ -1,3 +1,5 @@
+<%@page import="WebUtil.UIConstants"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +27,6 @@
 </head>
 
 <body>
-
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container">
@@ -80,112 +81,31 @@
         <div class="container">
           <div class="row align-items-center">
             <div class="col-lg-6 order-lg-2">
-              <form action="/action_page.php">
+              <form action="BookClassServlet" method="post">
                 <div class="form-group ">
-                    <label class="control-label requiredField">
-                     Select your subject (*)
-                    </span>
-                </label>
-                <div class="">
-                 <div class="radio">
-                  <label class="radio">
-                   <input name="radio" type="radio" value="private"/>
-                   Private
-                </label>
-               </div>
-               <div class="">
-                <div class="radio">
-                 <label class="radio">
-                  <input name="radio" type="radio" value="semiprivate"/>
-                  Semi-private
-               </label>
-              </div>
-              <div class="">
-                <div class="radio">
-                 <label class="radio">
-                  <input name="radio" type="radio" value="ingroup"/>
-                  In-group
-               </label>
-              </div>
-              <div class="form-group" style="display:none">
-                <label class="control-label " for="select1">
-                    Group size
-                </label>
-                   <select class="select form-control" id="select1" name="select1">
-                    <option value="2">
-                     2
-                    </option>
-                    <option value="3">
-                     3
-                    </option>
-                    <option value="4">
-                     4
-                    </option>
-                   </select>
-              </div>
-              <div class="form-group" style="display:none">
-                <label class="control-label requiredField" for="email1">
-                    Email
-                </label>
-                <input class="form-control" id="email" name="email" type="text"/>
-            </div>
-            <div class="form-group" style="display:none">
-                <label class="control-label requiredField" for="email1">
-                    Email
-                </label>
-                <input class="form-control" id="email" name="email2" type="text"/>
-            </div>
-            <div class="form-group" style="display:none">
-                <label class="control-label requiredField" for="email1">
-                    Email
-                </label>
-                <input class="form-control" id="email" name="email3" type="text"/>
-            </div>
-            <div class="form-group ">
-                <label class="control-label requiredField" for="date">
-                 Date
-                </label>
-                <input class="form-control" id="date" name="date" placeholder="YYYY-MM-DD" type="text"/>
-               </div>
-               <div class="form-group ">
-                <label class="control-label requiredField" for="select">
+                <jsp:useBean id="cc" class="bookingclass.controller.ClassController" scope="page"></jsp:useBean>
+                <%
+                    session.getAttribute(classSet);
+                    ResultSet rs = cc.checkClassAvailable(%>classSet.);
+                    
+                    //ResultSet rs = cc.checkClassAvailable("private","2019-07-23");
+                    //ResultSet rs = cc.checkClassAvailable("private", "2019-07-23");
+                %>  
+                <div class="form-group ">
+                <!--<label class="control-label requiredField" for="select">
                  Select a Time
-                </label>
-                <select class="select form-control" id="select" name="select">
-                 <option selected="selected" value="">
-                 </option>
+                </label>-->
+                <select> <!--class="select form-control" id="select" name="select">-->
+                 <option> Time available</option>
+                <%
+                    while(rs.next()){
+
+                %>
+                <option name="<%=UIConstants.CID%>" value="<%=rs.getInt("idclasses")%>"><%=rs.getString("time")%> </option>
+                <%
+                    }
+                %>
                 </select>
-               </div>
-               <div class="form-group ">
-                <label class="control-label requiredField">
-                 Select your subject
-                </label>
-                <div class="">
-                 <div class="radio">
-                  <label class="radio">
-                   <input name="radio" type="radio" value="Mathematics"/>
-                   Mathematics
-                  </label>
-                 </div>
-                 <div class="radio">
-                  <label class="radio">
-                   <input name="radio" type="radio" value="Physics"/>
-                   Physics
-                  </label>
-                 </div>
-                 <div class="radio">
-                  <label class="radio">
-                   <input name="radio" type="radio" value="Chemistry"/>
-                   Chemistry
-                  </label>
-                 </div>
-                </div>
-               </div>
-               <div class="form-group ">
-                <label class="control-label " for="message">
-                 Add extra information (topic to study)
-                </label>
-                <textarea class="form-control" cols="40" id="message" name="message" rows="10"></textarea>
                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
@@ -206,3 +126,4 @@
 </body>
 
 </html>
+

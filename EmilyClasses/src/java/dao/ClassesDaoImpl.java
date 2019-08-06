@@ -23,8 +23,9 @@ public class ClassesDaoImpl implements IClassesDao {
     ResultSet rs;
 
     //Obtain time available for classes type = private or type = in-group 
-    public ArrayList<Classes> selectEmptyClass(Date d) {
-        ArrayList<Classes> classAvailable = new ArrayList();
+    //public ArrayList<Classes> selectEmptyClass(Date d) 
+    public ResultSet selectEmptyClass(Date d){
+        //ArrayList<Classes> classAvailable = new ArrayList();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
@@ -44,6 +45,10 @@ public class ClassesDaoImpl implements IClassesDao {
             con = getConnection();
             st = con.createStatement();
             rs = st.executeQuery(sql);
+        /*try {
+            con = getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
             while (rs.next()) {
                 Classes c = new Classes();
                 c.setId(rs.getInt(1));
@@ -53,20 +58,21 @@ public class ClassesDaoImpl implements IClassesDao {
                 c.setQuantityStudents(rs.getInt(5));
 
                 classAvailable.add(c);
-            }
-            //con.commit();
-            con.close();
+            }*/
+            
+            //con.close();
 
         } catch (Exception e) {
             System.err.println(e);
         }
-        return classAvailable;
+        return rs;
 
     }
 
     //Obtain time available for classes type = private or type = in-group 
-    public ArrayList<Classes> selectSemiprivateClass(Date d) {
-        ArrayList<Classes> classAvailable = new ArrayList();
+    //public ArrayList<Classes> selectSemiprivateClass(Date d) {
+    public ResultSet selectSemiprivateClass(Date d) {
+        //ArrayList<Classes> classAvailable = new ArrayList();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
@@ -87,7 +93,7 @@ public class ClassesDaoImpl implements IClassesDao {
             con = getConnection();
             st = con.createStatement();
             rs = st.executeQuery(sql);
-            while (rs.next()) {
+            /*while (rs.next()) {
                 Classes c = new Classes();
                 c.setId(rs.getInt(1));
                 c.setDate(rs.getDate(2));
@@ -96,16 +102,41 @@ public class ClassesDaoImpl implements IClassesDao {
                 c.setQuantityStudents(rs.getInt(5));
 
                 classAvailable.add(c);
-            }
-            //con.commit();
-            con.close();
+            }*/
+            //con.close();
 
         } catch (Exception e) {
             System.err.println(e);
         }
-        return classAvailable;
+        return rs;
 
     }
+    
+    public int selectTimeChosen (int classId, Date d){
+        int timeChosen = 0;
+        Connection con = null;
+
+        String sql = "SELECT time "
+                + "FROM classes "
+                + "WHERE idclasses = " + classId + "' AND date = " + d + ";"; 
+        try{
+            con = getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+        while (rs.next()){
+                timeChosen = rs.getInt("time");
+    
+            }    
+        con.close();
+            
+            
+        }catch (Exception e) {
+            System.err.println(e);
+        }
+        return timeChosen;
+    }
+
+            
 
     public void book(Classes c) {
         Connection con = null;

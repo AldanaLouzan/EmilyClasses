@@ -11,5 +11,9 @@ public class Pages {
         public static final String METODOLOGY = "/metodology.jsp";
         public static final String REGISTER = "/registerForm.jsp";
         public static final String MYACCOUNT = "/myAccount.jsp";
+        public static final String CLASSSETTING = "/classSetting.jsp";
+        public static final String BOOKCLASS = "/bookClass.jsp";
+        public static final String TEACHERACCOUNT = "/teacherAccount.jsp";
+        
 	
 }

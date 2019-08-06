@@ -50,7 +50,7 @@
             My Account
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="bookClass.jsp">Book a class</a>
+            <a class="dropdown-item" href="classSetting.jsp">Book a class</a>
             <a class="dropdown-item" href="myBookings.jsp">My bookings</a>
             <div class="dropdown-divider"></div>                
           </div>

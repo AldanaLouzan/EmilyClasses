@@ -16,6 +16,13 @@ public class UIConstants {
         public static final String PSURNAME = "psurname";
         public static final String PPHONE = "pphone";
         
+        public static final String CID = "classid";
+        public static final String CTYPE = "type";
+        public static final String GROUPQUANTITY = "groupquantity";
+        public static final String CDATE = "date";
+        public static final String CSUBJECT = "subject";
+        
+        
 	public static final String ERROR_LIST = "errorList";
 	public static final String MESSAGE = "message";
 	

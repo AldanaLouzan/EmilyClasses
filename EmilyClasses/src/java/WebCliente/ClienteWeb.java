@@ -14,8 +14,8 @@ public class ClienteWeb{
     public ClienteWeb() {
     }
         
-    public boolean getlogin(Student s) {		           
+    /*public boolean getlogin(Student s) {		           
         return clienteWeb.login(s.getEmail(), s.getPassword());
-    }
+    }*/
     
 }
