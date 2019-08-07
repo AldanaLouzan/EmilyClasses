@@ -31,7 +31,7 @@ public class ClassController implements IClass {
         d = sdf.parse(date);
         ResultSet rs;
         
-        if (classType == "private" || classType == "ingroup"){
+        if ("private".equals(classType) || "ingroup".equals(classType)){
             //classAvailable = data.selectEmptyClass(c.getDate()); //Select depending on the type of class
             rs = data.selectEmptyClass(d);
         }else{

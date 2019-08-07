@@ -37,7 +37,7 @@ public class SettingClassServlet extends HttpServlet {
      */
     protected void processRequest(String jsp, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        
         if (jsp != null) {
         	
             RequestDispatcher rd = request.getRequestDispatcher(jsp);
@@ -62,7 +62,8 @@ public class SettingClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doPost(request, response);
+
+        //doPost(request, response);
     }
 
     /**
@@ -101,11 +102,11 @@ public class SettingClassServlet extends HttpServlet {
         //c.setTime(cc.selectTime(c));
         
         HttpSession session = request.getSession(true);
-        session.setAttribute("classSet", c);
+        //session.setAttribute("classSet", c);
         session.setAttribute("classType", c.getType());
-        //session.setAttribute("classDate", c.getDate());
         session.setAttribute("classDate", (String) request.getParameter(UIConstants.CDATE));
-  
+        session.setAttribute("slotSubject", (String) request.getParameter(UIConstants.SSUBJECT));
+        session.setAttribute("slotComment", (String) request.getParameter(UIConstants.SCOMMENT));
         /*boolean success = sc.registerStudent(user);
         
         if (!success) {

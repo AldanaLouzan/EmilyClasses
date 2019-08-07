@@ -81,20 +81,18 @@
         <div class="container">
           <div class="row align-items-center">
             <div class="col-lg-6 order-lg-2">
-              <form action="BookClassServlet" method="get">
-                <div class="form-group ">
-                <jsp:useBean id="cc" class="bookingclass.controller.ClassController" scope="page"></jsp:useBean>
+              <form action="BookClassServlet" method="post">
+                  <jsp:useBean id="cc" class="bookingclass.controller.ClassController" scope="page"></jsp:useBean>
                 <%
-
-                    String type = request.getParameter("classType");
-                    String date = request.getParameter("classDate");
+                    String type = (String)session.getAttribute("classType");  
+                    String date = (String)session.getAttribute("classDate"); 
                     ResultSet rs = cc.checkClassAvailable(type,date);
                     
                 %>  
-                <!--<div class="form-group ">-->
-                <!--<label class="control-label requiredField" for="select">
-                 Select a Time
-                </label>-->
+                <div class="form-group ">
+                <label class="control-label requiredField" for="select">
+                 Pick a Time
+                </label>
                 <select> <!--class="select form-control" id="select" name="select">-->
                  <option> Time available</option>
                 <%
@@ -104,12 +102,14 @@
                 <option name="<%=UIConstants.CID%>" value="<%=rs.getInt("idclasses")%>"><%=rs.getString("time")%> </option>
                 <%
                     }
-                %>
-                </select>
-               </div>
+                %>  
+                
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>
+          </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="py-5 bg-black">

@@ -21,8 +21,8 @@ public class StudentDaoImpl implements IStudentDao {
         boolean value;
 
         String sql = "INSERT INTO student"
-                + "(s_name, s_surname, phone, email, birth, age, college, level, idparent, password) "
-                + "VALUES(?,?,?,?,?,?,?,?,?,?)";
+                + "(s_name, s_surname, phone, email, birth, age, college, level, idparent, password, idteacher) "
+                + "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
         try {
 
@@ -39,7 +39,9 @@ public class StudentDaoImpl implements IStudentDao {
             pst.setString(8, st.getLevel());
             pst.setInt(9, st.getParent().getIdParent());
             pst.setString(10, st.getPassword());
-
+            //pst.setInt(11, st.getTeacher().getId());
+            pst.setInt(10, 1);  //For now it will be teacherid = 1, as it is just one teacher
+            
             int res = pst.executeUpdate();
 
             if (res > 0) {
@@ -64,8 +66,8 @@ public class StudentDaoImpl implements IStudentDao {
     public boolean insertStudentOver18(Student st) {
         Connection con = null;
         boolean value;
-        String sql = "INSERT INTO STUDENT (age, birth, college, email, level, phone, s_name, s_surname, password) "
-                + "VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO STUDENT (age, birth, college, email, level, phone, s_name, s_surname, password, idteacher) "
+                + "VALUES(?,?,?,?,?,?,?,?,?,?)";
 
         try {
 
@@ -81,6 +83,8 @@ public class StudentDaoImpl implements IStudentDao {
             pst.setString(7, st.getName());
             pst.setString(8, st.getSurname());
             pst.setString(9, st.getPassword());
+            //pst.setInt(10, st.getTeacher().getId());
+            pst.setInt(10, 1);  //For now it will be teacherid = 1, as it is just one teacher
 
             int res = pst.executeUpdate();
 

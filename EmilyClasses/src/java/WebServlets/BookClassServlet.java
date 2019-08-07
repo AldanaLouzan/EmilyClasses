@@ -74,11 +74,7 @@ public class BookClassServlet extends HttpServlet {
                 
         Classes classNew = new Classes();
         
-        HttpSession session = request.getSession();
-        session.setAttribute("classNew", classNew);
-        session.setAttribute("type", classNew.getType());
         
-        //Mostrar tiempo
         
         
     }

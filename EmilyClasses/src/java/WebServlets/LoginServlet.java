@@ -74,9 +74,8 @@ public class LoginServlet extends HttpServlet {
         user.setEmail((String) request.getParameter(UIConstants.USUARIO));
         user.setPassword((String) request.getParameter(UIConstants.PASSWORD));
     
-        int value = mc.login(user.getEmail(), user.getPassword());
-
         
+        int value = mc.login(user.getEmail(), user.getPassword());
         if (value == 1){
             jspPage = Pages.TEACHERACCOUNT;
         } else if (value == 2){
@@ -85,7 +84,7 @@ public class LoginServlet extends HttpServlet {
                 errorList.add(Errors.ERROR_LOGIN);
                 request.setAttribute(UIConstants.ERROR_LIST, errorList);  
                     }
-				
+        				
         processRequest(jspPage, request, response);
     }
 
