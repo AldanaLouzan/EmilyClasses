@@ -72,8 +72,7 @@ public class ClassesDaoImpl implements IClassesDao {
     //Obtain time available for classes type = private or type = in-group 
     //public ArrayList<Classes> selectSemiprivateClass(Date d) {
     public ResultSet selectSemiprivateClass(Date d) {
-        //ArrayList<Classes> classAvailable = new ArrayList();
-
+        
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         int year = cal.get(Calendar.YEAR);
@@ -112,13 +111,13 @@ public class ClassesDaoImpl implements IClassesDao {
 
     }
     
-    public int selectTimeChosen (int classId, Date d){
-        int timeChosen = 0;
+    public int selectTimeChosen (int classId){
+        int timeChosen=0;
         Connection con = null;
-
+        
         String sql = "SELECT time "
                 + "FROM classes "
-                + "WHERE idclasses = " + classId + "' AND date = " + d + ";"; 
+                + "WHERE idclasses = " + classId +";"; 
         try{
             con = getConnection();
             st = con.createStatement();
@@ -138,23 +137,36 @@ public class ClassesDaoImpl implements IClassesDao {
 
             
 
-    public void book(Classes c) {
+    public boolean book(Classes c) {
+        boolean value;
         Connection con = null;
 
         String sql = "UPDATE classes "
-                + "SET type = '" + c.getType() + "'"
+                + "SET type = '" + c.getType() + "', quantity_students ='" + c.getQuantityStudents()+"'"
                 + "WHERE idclasses = "+c.getId();
         try {
             con = getConnection();
             pst = con.prepareStatement(sql);
 
-            //pst.setString(1, c.getType());
-            pst.executeUpdate();
+            
+           int res = pst.executeUpdate();
+
+            if (res > 0) {
+                System.out.println("You have been registered");
+                value = true;
+            } else {
+                System.out.println("Error");
+                value = false;
+            }
+
             con.close();
+            return value;
 
         } catch (Exception e) {
             System.err.println(e);
+            return false;
         }
+
 
     }
     public int checkQuantityStudents (int classID){

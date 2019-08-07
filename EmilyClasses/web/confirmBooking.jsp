@@ -1,5 +1,5 @@
-<%@page import="WebUtil.UIConstants"%>
-<%@page import="java.sql.ResultSet"%>
+<%@page import="bookingclass.entity.Slot"%>
+<%@page import="bookingclass.entity.Classes"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,6 +23,9 @@
 
     <!-- Custom styles for this template -->
     <link href="css/one-page-wonder.min.css" rel="stylesheet">
+    
+    <script src="alert/dist/sweetalert-dev.js"></script>
+    <link rel="stylesheet" href="alert/dist/sweetalert.css">
 
 </head>
 
@@ -76,55 +79,75 @@
         <div class="bg-circle-3 bg-circle"></div>
         <div class="bg-circle-4 bg-circle"></div>
     </header>
-
+    
     <section>
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-lg-6 order-lg-2">
-              <form action="BookClassServlet" method="post">
-                  <jsp:useBean id="cc" class="bookingclass.controller.ClassController" scope="page"></jsp:useBean>
-                <%
-                    String type = (String)session.getAttribute("classType");  
-                    String date = (String)session.getAttribute("classDate"); 
-                    ResultSet rs = cc.checkClassAvailable(type,date);
-                    
-                %>  
-                <div class="form-group ">
-                <label class="control-label requiredField" for="select">
-                 Pick a Time
-                </label>
-                <select name="<%=UIConstants.CID%>"> <!--class="select form-control" id="select" name="select">-->
-                 <option selected> Time available</option>
-                <%
-                    while(rs.next()){
 
-                %>
-                <option name="<%=UIConstants.CID%>" value="<%=rs.getInt("idclasses")%>"><%=rs.getString("time")%> </option>
-                <%
-                    }
-                %>  
-                </select>
-               </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
-            </div>
-          </div>
-        </div>
-    </section>
+    <div class="controls">
+        <h2 class="masthead-subheading mb-0">This is your booking</h2>
+    </div>
+    <form action="ConfirmBookingServlet" method="post">
+        <%
+            Classes c = (Classes)session.getAttribute("classSet");
+            Slot s = (Slot)session.getAttribute("slotSet");            
+            String date = (String)session.getAttribute("classDate");
+            int time = c.getTime();
+            String type = c.getType();
+            String comment = s.getComment();
+            String subject = s.getSubject();
+            int price = s.getPrice();
+            /*int time = (Integer) session.getAttribute("classTime");
+            //String time = (String)session.getAttribute("classTime");
+            String type = (String)session.getAttribute("classType");
+            String comment = (String)session.getAttribute("slotComment");
+            String subject = (String)session.getAttribute("slotSubject");
+            //String price = (String)session.getAttribute("slotPrice");
+            int price = (Integer) session.getAttribute("slotPrice");*/
+        %>
+    <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+            <th scope="col">Class Type</th>
+            <th scope="col">Subject</th>
+            <th scope="col">Comment</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td><%=date%></td>
+            <td><%=time%>hs - <%=time+1%>hs</td>
+            <td><%=type%></td>
+            <td><%=comment%></td>
+            <td><%=subject%></td>
+            <td>€<%=price%></td>
+        </tr>
+        </tbody>
+      </table>
+        <button onclick="JSalert()" type="submit" class="btn btn-primary">Confirm</button>
+    </form>
+  </section>
+        
 
-    <!-- Footer -->
-    <footer class="py-5 bg-black">
-        <div class="container">
-            <p class="m-0 text-center text-white small">Copyright &copy; Book a Class 2019 all rights reserved</p>
-        </div>
-        <!-- /.container -->
-    </footer>
+  <!-- Footer -->
+  <footer class="py-5 bg-black">
+    <div class="container">
+      <p class="m-0 text-center text-white small">Copyright &copy; Book a Class 2019 all rights reserved</p>
+    </div>
+    <!-- /.container -->
+  </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-</body>
-
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript">
+function JSalert(){
+	swal("Your booking was successful");
+}
+</script>
+  
+    </body>
 </html>
-

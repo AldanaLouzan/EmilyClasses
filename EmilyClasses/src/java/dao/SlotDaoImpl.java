@@ -20,7 +20,9 @@ public class SlotDaoImpl implements ISlotDao {
        PreparedStatement pst;
     ResultSet rs;
     
-    public void insertNewSlot (Slot s){
+       @Override
+    public boolean insertNewSlot (Slot s){
+        boolean value;
         Connection con = null;
         
         String sql = "INSERT INTO slot (idclasses, idstudent, comment, price, status, subject) "
@@ -39,19 +41,21 @@ public class SlotDaoImpl implements ISlotDao {
             pst.setString(6, s.getSubject());
             
             int res = pst.executeUpdate();
-            
-            if(res > 0){
+
+            if (res > 0) {
                 System.out.println("You have been registered");
-            }else{
+                value = true;
+            } else {
                 System.out.println("Error");
+                value = false;
             }
-            
-            
+
             con.close();
-            
-    
+            return value;
+
         } catch (Exception e) {
             System.err.println(e);
+            return false;
         }
 
 

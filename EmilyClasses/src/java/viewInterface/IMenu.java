@@ -23,5 +23,5 @@ public interface IMenu {
    public Map <Integer, Integer> timeAvailable(ArrayList<Classes> classAvailable);
    public String subjectChosen ();
    public String comment ();
-   public void showBooking (Classes c, Slot s, int previousQS);
+   public boolean confirmBooking (Classes c, Slot s);
 }

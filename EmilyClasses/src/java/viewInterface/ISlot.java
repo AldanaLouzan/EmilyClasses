@@ -7,5 +7,6 @@ import bookingclass.entity.Slot;
 public interface ISlot {
     public Slot booking (Classes c, int studentID, String subject, String comment);
     public int calculatePrice(String classType);
-    public void confirmBooking (ClassController cc, Classes c, Slot slotBooked, int previousQS);   
+    public boolean bookSlot (Slot s);   
+    public String defineSubject(String subject);
 }

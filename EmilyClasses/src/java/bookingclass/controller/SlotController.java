@@ -21,17 +21,30 @@ public class SlotController implements ISlot {
         slotBooked.setComment(comment);
         slotBooked.setPrice(calculatePrice(c.getType()));
         slotBooked.setStatus("pending");
-        slotBooked.setSubject(subject);
+        slotBooked.setSubject(defineSubject(subject));
         
         return slotBooked;
         
     }
     
+    public String defineSubject(String subject) {
+        String value = null;
+        if ("Mathematics".equals(subject)) {
+            value = "M";
+        } else if ("Physics".equals(subject)) {
+            value = "P";
+        } else {
+            value = "C";
+        }
+
+        return value;
+    }
+    
     public int calculatePrice(String classType){
         int price = 0;
-        if (classType == "private"){
+        if ("private".equals(classType)){
             price = 50;
-        }else if (classType == "semiprivate"){
+        }else if ("semiprivate".equals(classType)){
             price = 40;
         }else{
             price = 35;
@@ -40,11 +53,10 @@ public class SlotController implements ISlot {
         
     }
     
-    public void confirmBooking (ClassController cc, Classes c, Slot slotBooked, int previousQS){
-        cc.bookClass(c, previousQS);
-        data.insertNewSlot(slotBooked);
+    public boolean bookSlot (Slot s){
+        
+        boolean booking = data.insertNewSlot(s);
+        return booking;
     }
-
-    
     
 }

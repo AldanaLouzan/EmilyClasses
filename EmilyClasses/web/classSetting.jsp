@@ -157,19 +157,19 @@
                 <div class="">
                  <div class="radio">
                   <label class="radio">
-                   <input name="<%=UIConstants.CSUBJECT%>" type="radio" value="Mathematics"/>
+                   <input name="<%=UIConstants.SSUBJECT%>" type="radio" value="Mathematics"/>
                    Mathematics
                   </label>
                  </div>
                  <div class="radio">
                   <label class="radio">
-                   <input name="<%=UIConstants.CSUBJECT%>" type="radio" value="Physics"/>
+                   <input name="<%=UIConstants.SSUBJECT%>" type="radio" value="Physics"/>
                    Physics
                   </label>
                  </div>
                  <div class="radio">
                   <label class="radio">
-                   <input name="<%=UIConstants.CSUBJECT%>" type="radio" value="Chemistry"/>
+                   <input name="<%=UIConstants.SSUBJECT%>" type="radio" value="Chemistry"/>
                    Chemistry
                   </label>
                  </div>
@@ -179,7 +179,7 @@
                 <label class="control-label " for="message">
                  Add extra information (topic to study)
                 </label>
-                <textarea class="form-control" cols="40" id="message" name="message" rows="10"></textarea>
+                <textarea class="form-control" cols="40" id="message" name="<%=UIConstants.SCOMMENT%>" value="" rows="10"></textarea>
                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>

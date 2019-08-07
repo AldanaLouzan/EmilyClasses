@@ -42,37 +42,39 @@ public class ClassController implements IClass {
         
     }
     
-    public int classId (String id){
-        int classId = Integer.parseInt(id);
-        return classId;
+    //public int selectTime (Classes c){
+    @Override
+    public int selectTime (int classId){
+        int timeSelected;
+        timeSelected = data.selectTimeChosen(classId);
         
-    }
-    
-    public int selectTime (Classes c){
-        int timeSelected = 0;
-        timeSelected = data.selectTimeChosen(c.getId(), c.getDate());
         return timeSelected;
     }
     
-    public int quantityStudents (String typeClass, int groupQuantity){
+   
+    public int previousQuantityStudents (int classID){
+        int previousQuantityStudents = data.checkQuantityStudents (classID);
+        return previousQuantityStudents; 
+    }
+    
+    public int quantityStudents (String typeClass, int groupQuantity, int previousQuantity){
         int quantityStudents = 0;
-        if (typeClass == "private" || typeClass == "semiprivate"){
+        if ("private".equals(typeClass)){
             quantityStudents = 1;
+        }else if ("semiprivate".equals(typeClass)){
+            quantityStudents = previousQuantity + 1;
         }else{
             quantityStudents = groupQuantity;
         }
         return quantityStudents; 
     }
     
-    public int previousQuantityStudents (int classID){
-        int previousQuantityStudents = data.checkQuantityStudents (classID);
-        return previousQuantityStudents; 
-    }
-    
-    public void bookClass (Classes c, int previousQS){
-        data.insertQuantityStudents(c, (previousQS + c.getQuantityStudents()));
-        data.book(c);
+    public boolean bookClass (Classes c){
+        //data.insertQuantityStudents(c, (previousQS + c.getQuantityStudents()));
+        boolean booking = data.book(c);
+        return booking;
         
     }
+
     
 }

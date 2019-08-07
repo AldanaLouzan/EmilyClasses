@@ -10,5 +10,6 @@ public class Pages {
         public static final String CLASSSETTING = "/classSetting.jsp";
         public static final String BOOKCLASS = "/bookClass.jsp";
         public static final String TEACHERACCOUNT = "/teacherAccount.jsp";
+        public static final String CONFIRMBOOKING = "/confirmBooking.jsp";
  
 }

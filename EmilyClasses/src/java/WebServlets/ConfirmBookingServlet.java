@@ -1,16 +1,18 @@
 package WebServlets;
 
+
+
+import WebUtil.Errors;
 import WebUtil.Pages;
 import WebUtil.UIConstants;
 import bookingclass.controller.ClassController;
-import bookingclass.controller.SlotController;
+import bookingclass.controller.MenuController;
 import bookingclass.entity.Classes;
 import bookingclass.entity.Slot;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,8 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(name = "BookClassServlet", urlPatterns = {"/BookClassServlet"})
-public class BookClassServlet extends HttpServlet {
+@WebServlet(name = "ConfirmBookingServlet",urlPatterns = {"/ConfirmBookingServlet"})
+public class ConfirmBookingServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,8 +45,8 @@ public class BookClassServlet extends HttpServlet {
                 throw new ServletException(e);
             }
         }
+        
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -58,7 +60,6 @@ public class BookClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session= (HttpSession) request.getSession();
         doPost(request, response);
     }
 
@@ -73,48 +74,26 @@ public class BookClassServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String jspPage = Pages.CONFIRMBOOKING;
+        List<String> errorList = new ArrayList<String>();
         
-        String jspPage = Pages.BOOKCLASS;
-                
-        Classes newClass = new Classes();
-        Slot newSlot = new Slot();
-        ClassController cc = new ClassController();
-        SlotController sc = new SlotController();
-                                
+        MenuController mc = new MenuController();
         HttpSession session= (HttpSession) request.getSession();
         
-        String classId = request.getParameter(UIConstants.CID); //Get ClassId of the time chosen
-        int id = Integer.parseInt(classId);
-        newClass.setId(id);
+        Classes c = (Classes)session.getAttribute("classSet");
+        Slot s = (Slot)session.getAttribute("slotSet");
         
-        String date = (String)session.getAttribute("classDate");    //Get ClassDate
-        //newClass.setDate(date);
+        boolean success = mc.confirmBooking(c, s);
         
-        newClass.setType((String)session.getAttribute("classType"));
-        //String classType = (String)session.getAttribute("classType");
+        if (!success){
+            errorList.add(Errors.ERROR_LOGIN);
+                request.setAttribute(UIConstants.ERROR_LIST, errorList); 
+        }else{
+            jspPage = Pages.MYACCOUNT;
+        }
         
-        newClass.setTime(cc.selectTime(newClass.getId()));
-        
-        session.setAttribute("classTime", newClass.getTime());
+        processRequest(jspPage, request, response);
                 
-        int prevQuantStudents = cc.previousQuantityStudents(3); //get quantitystudents of the class
-        int quantityStudents =  cc.quantityStudents(newClass.getType(), 0, prevQuantStudents);
-        newClass.setQuantityStudents(quantityStudents);
-        session.setAttribute("quantityStudents", quantityStudents);
-        
-        String comment = (String)session.getAttribute("slotComment");
-        String subject = (String)session.getAttribute("slotSubject");
-        newSlot = sc.booking(newClass, 6, subject , comment);
-        int slotPrice = newSlot.getPrice();
-        session.setAttribute("slotPrice", slotPrice);
-        
-        session.setAttribute("classSet", newClass);
-        session.setAttribute("slotSet", newSlot);
-        
-        response.sendRedirect(request.getContextPath()+"/confirmBooking.jsp");
-        
-        
-        
     }
 
     /**

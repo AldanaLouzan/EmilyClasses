@@ -272,7 +272,7 @@ public class MenuController implements IMenu {
         
         System.out.println("Here are the details of the class booked:");
         
-        showBooking(c, booking, previousQuantityStudents); //Show booking
+        //showBooking(c, booking, previousQuantityStudents); //Show booking
        }
 
 
@@ -421,8 +421,8 @@ public class MenuController implements IMenu {
         return comment;
     }
     
-    @Override
-    public void showBooking (Classes c, Slot s, int previousQS){
+   /*    @Override
+ public void showBooking (Classes c, Slot s, int previousQS){
         
         System.out.println("Date: "+c.getDate()+" | Time: "+c.getTime()
                            +" | Type: "+c.getType()+" | Price: "+s.getPrice()
@@ -434,7 +434,7 @@ public class MenuController implements IMenu {
             switch (choice) {
                 case "Y": {
                       s.setStatus("confirmed");
-                      slotC.confirmBooking(cCon, c,s, previousQS);
+                      slotC.bookSlot(cCon, c,s, previousQS);
                       System.out.println("Your Class has been booked successfully");
                 }
                 case "2": {
@@ -450,7 +450,19 @@ public class MenuController implements IMenu {
 
         } while (!choice.equals("7")); // end of loop do-while
  
+    }*/
+    
+    @Override
+    public boolean confirmBooking (Classes c, Slot s) {
+        boolean value;
+        if (cCon.bookClass(c) == true && slotC.bookSlot(s)== true){
+            value = true;
+        }else{
+            value = false;
+        }
+        return value;
     }
-        
+
+      
         
 }

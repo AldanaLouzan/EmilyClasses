@@ -13,7 +13,8 @@ public interface IClassesDao {
     public ResultSet selectEmptyClass(Date d);
     //public ArrayList<Classes> selectSemiprivateClass(Date d);
     public ResultSet selectSemiprivateClass(Date d);
-    public void book(Classes c);
+    public boolean book(Classes c);
     public void insertQuantityStudents(Classes c, int qs);
+    public int selectTimeChosen (int classId);
     
 }
