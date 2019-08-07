@@ -62,12 +62,7 @@ public class StudentController implements IStudent {
 
      public boolean checkUser(String email)  {
         boolean registeredUser = data.checkUser(email);//Password request to DB
-        
-        if (registeredUser ==  true) {
-            return true;
-
-        }
-        return false;
+        return registeredUser;
         
     }
    //Check the user´s password

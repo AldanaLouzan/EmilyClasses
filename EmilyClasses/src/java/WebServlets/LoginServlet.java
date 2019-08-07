@@ -20,6 +20,7 @@ public class LoginServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
+     * @param jsp
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -39,7 +40,6 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -65,25 +65,17 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         MenuController mc = new MenuController();
         String jspPage = Pages.INDEX;
         List<String> errorList = new ArrayList<String>();
-                
-        Student user = new Student();
+        User user = new User();
         
         user.setEmail((String) request.getParameter(UIConstants.USUARIO));
         user.setPassword((String) request.getParameter(UIConstants.PASSWORD));
-               
-        //boolean success = mc.login(user.getEmail(), user.getPassword());
+    
         int value = mc.login(user.getEmail(), user.getPassword());
 
-        /*
-        if (!success) {
-                errorList.add(Errors.ERROR_LOGIN);
-                request.setAttribute(UIConstants.ERROR_LIST, errorList);
-        } else {
-                jspPage = Pages.HOME;
-        }*/
         
         if (value == 1){
             jspPage = Pages.TEACHERACCOUNT;

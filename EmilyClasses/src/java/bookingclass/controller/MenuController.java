@@ -150,12 +150,10 @@ public class MenuController implements IMenu {
 
     public int login(String email, String pass) {
         int value;
-        //Teacher newT = tt.createTeacher();
-        //boolean checkTeacher = tt.checkTeacher(newT.getEmail());
         boolean checkTeacher = tt.checkTeacher(email);
         
         if (checkTeacher == true) {
-            boolean checkTeacherPass = tt.checkTeacherPass(pass);
+            boolean checkTeacherPass = tt.checkTeacherPassword(email, pass);
             if (checkTeacherPass == true) {
                 value = 1;  //Access to Teacher Account
             } else {

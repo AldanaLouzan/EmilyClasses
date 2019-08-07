@@ -9,23 +9,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class StudentDaoImpl implements IStudentDao
-        
-{
+public class StudentDaoImpl implements IStudentDao {
+
     PreparedStatement pst;
-    Statement st; 
+    Statement st;
     ResultSet rs;
-    
+
     //----Insert Student under 18----//
     public boolean insertStudentUnder18(Student st) {
         Connection con = null;
         boolean value;
-        
-        String sql = "INSERT INTO STUDENT (s_name, s_surname, phone, email, birth, age, college, level, idparent, password) "
+
+        String sql = "INSERT INTO student"
+                + "(s_name, s_surname, phone, email, birth, age, college, level, idparent, password) "
                 + "VALUES(?,?,?,?,?,?,?,?,?,?)";
 
         try {
-            
+
             con = getConnection();
             pst = con.prepareStatement(sql);
 
@@ -39,27 +39,27 @@ public class StudentDaoImpl implements IStudentDao
             pst.setString(8, st.getLevel());
             pst.setInt(9, st.getParent().getIdParent());
             pst.setString(10, st.getPassword());
-            
+
             int res = pst.executeUpdate();
-            
-            if(res > 0){
+
+            if (res > 0) {
                 System.out.println("You have been registered");
                 value = true;
-            }else{
+            } else {
                 System.out.println("Error");
-                value=false;
+                value = false;
             }
 
             con.close();
             return value;
-   
+
         } catch (Exception e) {
             System.err.println(e);
             return false;
         }
- 
+
     }
-    
+
     //----Insert Student Over 18, without paretn details----//
     public boolean insertStudentOver18(Student st) {
         Connection con = null;
@@ -68,118 +68,117 @@ public class StudentDaoImpl implements IStudentDao
                 + "VALUES(?,?,?,?,?,?,?,?,?)";
 
         try {
-            
+
             con = getConnection();
             pst = con.prepareStatement(sql);
-            
+
             pst.setInt(1, st.getAge());
             pst.setDate(2, Date.valueOf(st.getBirth()));
             pst.setString(3, st.getCollege());
             pst.setString(4, st.getEmail());
             pst.setString(5, st.getLevel());
-            pst.setString(6, st.getPhone()); 
+            pst.setString(6, st.getPhone());
             pst.setString(7, st.getName());
             pst.setString(8, st.getSurname());
             pst.setString(9, st.getPassword());
-           
+
             int res = pst.executeUpdate();
-            
-            if(res > 0){
-                 System.out.println("You have been registered");
-                 value = true;
-                 
-            }else{
+
+            if (res > 0) {
+                System.out.println("You have been registered");
+                value = true;
+
+            } else {
                 System.out.println("Error");
-                value=false;
+                value = false;
             }
             con.close();
             return value;
         } catch (Exception e) {
             System.err.println(e);
             return false;
-        }    
-        
+        }
+
     }
-        
-        //check User
-        public boolean checkUser (String email){
+
+    //check User
+    public boolean checkUser(String email) {
         Connection con = null;
         String registeredUser = null;
-        
-        String sql = "SELECT email FROM student WHERE email = '"+email+"';";
-        
-        try{
+
+        String sql = "SELECT email "
+                + "FROM student "
+                + "WHERE email = '" + email + "';";
+
+        try {
             con = getConnection();
             st = con.createStatement();
             rs = st.executeQuery(sql);
-        while (rs.next()){
+            while (rs.next()) {
                 registeredUser = rs.getString("email");
-                if (email.equals(registeredUser)){
+                if (registeredUser != null) {
                     return true;
-                }else{
+                } else {
                     con.close();
                 }
-            }    
-
-            
-            
-        }catch (Exception e) {
+            }
+        } catch (Exception e) {
             System.err.println(e);
         }
         return false;
-            
-        }
-        //Request password
-        public String checkPass (String email){
+
+    }
+
+    //Request password
+    public String checkPass(String email) {
         Connection con = null;
         String pass = null;
-       
-        //String sql = "SELECT password FROM student WHERE email = '"+email+"';";
-        String sql2 = "SELECT password FROM student WHERE email = ?";
-        
-        try{
+
+        String sql = "SELECT password "
+                + "FROM student "
+                + "WHERE email = ?";
+
+        try {
             con = getConnection();
-            pst = con.prepareStatement(sql2);
+            pst = con.prepareStatement(sql);
             pst.setString(1, email);
             rs = pst.executeQuery();
-            //st2 = con.createStatement();
-            //rs2 = st2.executeQuery(sql2);
-        while (rs.next()){
+
+            while (rs.next()) {
                 pass = rs.getString("password");
             }
 
             con.close();
-            
-        }catch (Exception e) {
+
+        } catch (Exception e) {
             System.err.println(e);
         }
         return pass;
-            
-        }
-        
-        public int selectStudentID(String email){
-            int studentID = 0;
-            Connection con = null;
-            String sql = "SELECT idstudent FROM student WHERE email = '"+email+"';";
-        
-        try{
+
+    }
+
+    public int selectStudentID(String email) {
+        int studentID = 0;
+        Connection con = null;
+        String sql = "SELECT "
+                + "idstudent "
+                + "FROM student "
+                + "WHERE email = '" + email + "';";
+
+        try {
             con = getConnection();
             st = con.createStatement();
             rs = st.executeQuery(sql);
-            while (rs.next()){
+            while (rs.next()) {
                 studentID = rs.getInt("idstudent");
             }
-            //con.commit();
             con.close();
-            
-        }catch (Exception e) {
+
+        } catch (Exception e) {
             System.err.println(e);
         }
-            
-        return studentID;
-            
-        }
-        
-        
 
+        return studentID;
+
+    }
 }
