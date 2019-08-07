@@ -22,8 +22,7 @@ public class Parent extends Person {
         this.idParent = idParent;
         this.phone = phone;
     }
-
-
+    
     public Parent(String phone, String name, String surname) {
         super(name, surname);
         this.phone = phone;

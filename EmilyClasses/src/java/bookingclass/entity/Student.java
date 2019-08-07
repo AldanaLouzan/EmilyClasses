@@ -8,91 +8,36 @@ import java.util.Date;
  *
  * @author Aldana
  */
-public class Student extends Person {
+public class Student extends User {
 
-    private int idStudent;
-    private String email;
-    private String password;
-    private String phone;
     private String birth;
     private int age;
     private String college;
     private String level;
     private Parent parent;
+    private Teacher teacher;
 
     public Student() {
     }
     
     //Constructor without parent attibute, as not all the students must have parents contanct details
-    public Student(int id, String email, String password, String phone, String birth, int age, String college, String level, String name, String surname) {
-        super(name, surname);
-        this.idStudent = id;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
+    public Student(String birth, int age, String college, String level, Teacher teacher, int id, String email, String password, String phone, String name, String surname) {
+        super(id, email, password, phone, name, surname);
         this.birth = birth;
         this.age = age;
         this.college = college;
         this.level = level;
+        this.teacher = teacher;
     }
 
-    public Student(String email, String password, String phone, String birth, int age, String college, String level, Parent parent, String name, String surname) {
-        super(name, surname);
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-        this.birth = birth;
-        this.age = age;
-        this.college = college;
-        this.level = level;
-        this.parent = parent;
-    }
-    
-    
-
-    public Student(int id, String email, String password, String phone, String birth, int age, String college, String level, Parent parent, String name, String surname) {
-        super(name, surname);
-        this.idStudent = id;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
+    public Student(String birth, int age, String college, String level, Parent parent, Teacher teacher, int id, String email, String password, String phone, String name, String surname) {
+        super(id, email, password, phone, name, surname);
         this.birth = birth;
         this.age = age;
         this.college = college;
         this.level = level;
         this.parent = new Parent();
-    }
-
-    public int getId() {
-        return idStudent;
-    }
-
-    public void setID(int id) {
-        this.idStudent = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+        this.teacher = new Teacher();
     }
 
     public String getBirth() {
@@ -133,6 +78,14 @@ public class Student extends Person {
 
     public void setParent(Parent parent) {
         this.parent = parent;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 
 }

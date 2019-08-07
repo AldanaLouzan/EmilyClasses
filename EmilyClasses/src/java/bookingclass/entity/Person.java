@@ -1,11 +1,6 @@
 package bookingclass.entity;
 
-/**
- *
- * @author Aldana
- */
 public class Person {
-
     private String name;
     private String surname;
 
@@ -32,5 +27,5 @@ public class Person {
     public void setSurname(String surname) {
         this.surname = surname;
     }
-
+  
 }
