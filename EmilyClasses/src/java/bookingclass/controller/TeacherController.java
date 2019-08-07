@@ -1,42 +1,32 @@
 package bookingclass.controller;
 
 import bookingclass.entity.Teacher;
+import dao.TeacherDaoImpl;
+import viewInterface.ITeacher;
 
-/**
- *
- * @author Eoin
- */
-public class TeacherController {
-    Teacher t = new Teacher ();
+
+public class TeacherController implements ITeacher {
+    TeacherDaoImpl data = new TeacherDaoImpl();
     
-    public Teacher createTeacher (){
-        int id = 3010;
-        String name = "Emily";
-        String surname = "Loudi";
-        String email = "emily.loudi@gmail.com";
-        String password = "loveMaths";
-        
-        t.setIdTeacher(id);
-        t.setName(name);
-        t.setSurname(surname);
-        t.setEmail(email);
-        t.setPassword(password);
-                
-        return t;
+    
+    public boolean registerTeacher (Teacher t){
+        return data.insertTeacher(t);
     }
     
-    public boolean checkTeacher (String email){
-        if (email.equals(t.getEmail())){
-            return true;    
-        }
-        
-        return false;
+    public boolean checkTeacher(String email) {
+        boolean registeredTeacher = data.checkUser(email);//Password request to DB
+        return registeredTeacher; 
     }
+
     
-    public boolean checkTeacherPass (String pass){
-        if (pass.equals(t.getPassword())){
+    public boolean checkTeacherPassword(String email, String password) {
+        String correctPass = data.checkPass(email);//Password request to DB
+        
+        if (password.equals(correctPass)) {
             return true;
+
         }
         return false;
+        
     }
 }
