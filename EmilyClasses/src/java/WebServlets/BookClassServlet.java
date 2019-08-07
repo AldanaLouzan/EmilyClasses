@@ -58,8 +58,6 @@ public class BookClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session= (HttpSession) request.getSession();
-        doPost(request, response);
     }
 
     /**
@@ -73,38 +71,31 @@ public class BookClassServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String jspPage = Pages.BOOKCLASS;
-                
         Classes newClass = new Classes();
         Slot newSlot = new Slot();
         ClassController cc = new ClassController();
         SlotController sc = new SlotController();
-                                
-        HttpSession session= (HttpSession) request.getSession();
+        HttpSession session= (HttpSession) request.getSession(true);
         
         String classId = request.getParameter(UIConstants.CID); //Get ClassId of the time chosen
         int id = Integer.parseInt(classId);
         newClass.setId(id);
         
         String date = (String)session.getAttribute("classDate");    //Get ClassDate
-        //newClass.setDate(date);
-        
+
         newClass.setType((String)session.getAttribute("classType"));
-        //String classType = (String)session.getAttribute("classType");
-        
         newClass.setTime(cc.selectTime(newClass.getId()));
-        
         session.setAttribute("classTime", newClass.getTime());
                 
-        int prevQuantStudents = cc.previousQuantityStudents(3); //get quantitystudents of the class
+        int prevQuantStudents = cc.previousQuantityStudents(newClass.getId()); //get quantitystudents of the class
         int quantityStudents =  cc.quantityStudents(newClass.getType(), 0, prevQuantStudents);
         newClass.setQuantityStudents(quantityStudents);
         session.setAttribute("quantityStudents", quantityStudents);
         
         String comment = (String)session.getAttribute("slotComment");
         String subject = (String)session.getAttribute("slotSubject");
-        newSlot = sc.booking(newClass, 6, subject , comment);
+        
+        newSlot = sc.booking(newClass, (Integer)session.getAttribute("studentId"), subject , comment);
         int slotPrice = newSlot.getPrice();
         session.setAttribute("slotPrice", slotPrice);
         

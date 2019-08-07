@@ -22,9 +22,6 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "SettingClassServlet", urlPatterns = {"/SettingClassServlet"})
 public class SettingClassServlet extends HttpServlet {
-    
-    //public Classes c = new Classes();
-    //public ResultSet rs;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -63,7 +60,6 @@ public class SettingClassServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        //doPost(request, response);
     }
 
     /**
@@ -79,44 +75,19 @@ public class SettingClassServlet extends HttpServlet {
             throws ServletException, IOException {
         MenuController mc = new MenuController();
         ClassController cc = new ClassController();
-        //StudentController sc = new StudentController();
-        String jspPage = Pages.CLASSSETTING;
-       
-        List<String> errorList = new ArrayList<String>();
-        
-        //Student user = new Student();
         Classes c = new Classes();
+        
+        HttpSession session = request.getSession(true);
         
         c.setType((String) request.getParameter(UIConstants.CTYPE));
         //int groupQuantity = Integer.parseInt((String) request.getParameter(UIConstants.GROUPQUANTITY));
-        //c.setQuantityStudents(cc.quantityStudents(c.getType(), 0));
-        
-        /*try {
-            c.setDate(mc.chooseDate((String) request.getParameter(UIConstants.CDATE)));
-        } catch (ParseException ex) {
-            Logger.getLogger(SettingClassServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }*/        
-        
-        //int classID = cc.classId((String) request.getParameter(UIConstants.CID));
-        //c.setId(classID);
-        //c.setTime(cc.selectTime(c));
-        
-        HttpSession session = request.getSession(true);
-        //session.setAttribute("classSet", c);
+
         session.setAttribute("classType", c.getType());
         session.setAttribute("classDate", (String) request.getParameter(UIConstants.CDATE));
+        //session.setAttribute("groupQuantity", groupQuantity);
         session.setAttribute("slotSubject", (String) request.getParameter(UIConstants.SSUBJECT));
         session.setAttribute("slotComment", (String) request.getParameter(UIConstants.SCOMMENT));
-        /*boolean success = sc.registerStudent(user);
-        
-        if (!success) {
-                errorList.add(Errors.ERROR_BOOK_CLASS);
-                request.setAttribute(UIConstants.ERROR_LIST, errorList);
-        } else {
-                jspPage = Pages.HOME;
-        }
-				*/
-        //processRequest(jspPage, request, response);
+
         response.sendRedirect(request.getContextPath()+"/bookClass.jsp");
     }
 

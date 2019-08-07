@@ -76,6 +76,7 @@ public class ConfirmBookingServlet extends HttpServlet {
             throws ServletException, IOException {
         String jspPage = Pages.CONFIRMBOOKING;
         List<String> errorList = new ArrayList<String>();
+        PrintWriter out = response.getWriter();
         
         MenuController mc = new MenuController();
         HttpSession session= (HttpSession) request.getSession();
@@ -84,11 +85,27 @@ public class ConfirmBookingServlet extends HttpServlet {
         Slot s = (Slot)session.getAttribute("slotSet");
         
         boolean success = mc.confirmBooking(c, s);
-        
+                
         if (!success){
+            out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+            out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'><</script>");
+            out.println("<script>");
+            out.println("$(document).ready(function(){");
+            out.println("swal ( 'Oops!' ,  'Something went wrong, please try again' ,  'success' )");
+            out.println("});");
+            out.println("</script>");
+            
             errorList.add(Errors.ERROR_LOGIN);
-                request.setAttribute(UIConstants.ERROR_LIST, errorList); 
+            request.setAttribute(UIConstants.ERROR_LIST, errorList); 
         }else{
+            out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+            out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'><</script>");
+            out.println("<script>");
+            out.println("$(document).ready(function(){");
+            out.println("swal ( 'Well done' ,  'Your booking was successfull' ,  'success' )");
+            out.println("});");
+            out.println("</script>");
+            
             jspPage = Pages.MYACCOUNT;
         }
         

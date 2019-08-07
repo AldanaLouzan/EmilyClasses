@@ -24,9 +24,6 @@
     <!-- Custom styles for this template -->
     <link href="css/one-page-wonder.min.css" rel="stylesheet">
     
-    <script src="alert/dist/sweetalert-dev.js"></script>
-    <link rel="stylesheet" href="alert/dist/sweetalert.css">
-
 </head>
 
 <body>
@@ -71,7 +68,10 @@
     <header class="masthead text-center text-white">
         <div class="masthead-content">
             <div class="container">
-                <h1 class="masthead-heading mb-0">Hello ....</h1>
+                <%
+                    String name = (String)session.getAttribute("studentName"); 
+                %>
+              <h1 class="masthead-heading mb-0"><%=name%> if you say Yes, you are saying yes to succeed</h1>
             </div>
         </div>
         <div class="bg-circle-1 bg-circle"></div>
@@ -85,7 +85,7 @@
     <div class="controls">
         <h2 class="masthead-subheading mb-0">This is your booking</h2>
     </div>
-    <form action="ConfirmBookingServlet" method="post">
+        <form action="${pageContext.request.contextPath}/ConfirmBookingServlet" method="post">
         <%
             Classes c = (Classes)session.getAttribute("classSet");
             Slot s = (Slot)session.getAttribute("slotSet");            
@@ -121,13 +121,13 @@
             <td><%=date%></td>
             <td><%=time%>hs - <%=time+1%>hs</td>
             <td><%=type%></td>
-            <td><%=comment%></td>
             <td><%=subject%></td>
+            <td><%=comment%></td>
             <td>€<%=price%></td>
         </tr>
         </tbody>
       </table>
-        <button onclick="JSalert()" type="submit" class="btn btn-primary">Confirm</button>
+        <button type="submit" class="btn btn-primary">Confirm</button>
     </form>
   </section>
         
@@ -143,11 +143,6 @@
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script type="text/javascript">
-function JSalert(){
-	swal("Your booking was successful");
-}
-</script>
-  
+
     </body>
 </html>

@@ -66,7 +66,10 @@
     <header class="masthead text-center text-white">
         <div class="masthead-content">
             <div class="container">
-              <h1 class="masthead-heading mb-0">Hello ....</h1>
+                <%
+                    String name = (String)session.getAttribute("studentName"); 
+                %>
+              <h1 class="masthead-heading mb-0">Hello <%=name%></h1>
             </div>
         </div>
         <div class="bg-circle-1 bg-circle"></div>

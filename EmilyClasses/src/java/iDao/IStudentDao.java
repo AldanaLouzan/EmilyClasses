@@ -12,5 +12,6 @@ public interface IStudentDao {
     public boolean checkUser (String email);
     public String checkPass (String email);
     public int selectStudentID(String email);  
+    public String selectStudentName(int studentId);
     
 }

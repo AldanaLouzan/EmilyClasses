@@ -70,7 +70,10 @@
     <header class="masthead text-center text-white">
         <div class="masthead-content">
             <div class="container">
-                <h1 class="masthead-heading mb-0">Hello ....</h1>
+                <%
+                    String name = (String)session.getAttribute("studentName"); 
+                %>
+            <h1 class="masthead-heading mb-0"><%=name%> Let´s start the booking form</h1>            
             </div>
         </div>
         <div class="bg-circle-1 bg-circle"></div>
@@ -114,14 +117,15 @@
                 <label class="control-label " for="select1">
                     Group size
                 </label>
-                   <select class="select form-control" id="select1" name="select1">
-                    <option value="2">
+                   <select class="select form-control" id="select1" name="<%=UIConstants.GROUPQUANTITY%>">
+                    <option> Options</option>
+                    <option name="<%=UIConstants.GROUPQUANTITY%>" value="2">
                      2
                     </option>
-                    <option value="3">
+                    <option name="<%=UIConstants.GROUPQUANTITY%>" value="3">
                      3
                     </option>
-                    <option value="4">
+                    <option name="<%=UIConstants.GROUPQUANTITY%>" value="4">
                      4
                     </option>
                    </select>

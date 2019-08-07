@@ -11,4 +11,5 @@ public interface IStudent {
     public boolean checkUser(String email);
     public boolean checkUserPassword(String email, String password);
     public int checkStudentId(String email); 
+    public String checkStudentName(int studentId);
 }

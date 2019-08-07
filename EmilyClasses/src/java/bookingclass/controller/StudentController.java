@@ -90,4 +90,10 @@ public class StudentController implements IStudent {
         return studentID;
         
     }
+     
+     public String checkStudentName(int studentId){
+        String studentName = data.selectStudentName(studentId);
+        return studentName;
+        
+    } 
 }

@@ -13,6 +13,8 @@ import java.util.*;
 import javax.servlet.RequestDispatcher;
 import WebCliente.*;
 import bookingclass.controller.MenuController;
+import bookingclass.controller.StudentController;
+import javax.servlet.http.HttpSession;
 
 public class LoginServlet extends HttpServlet {
 
@@ -67,18 +69,24 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         
         MenuController mc = new MenuController();
+        StudentController sc = new StudentController();
         String jspPage = Pages.INDEX;
         List<String> errorList = new ArrayList<String>();
         User user = new User();
+        HttpSession session= (HttpSession) request.getSession(true);
+        
         
         user.setEmail((String) request.getParameter(UIConstants.USUARIO));
         user.setPassword((String) request.getParameter(UIConstants.PASSWORD));
-    
-        
+                
         int value = mc.login(user.getEmail(), user.getPassword());
         if (value == 1){
             jspPage = Pages.TEACHERACCOUNT;
         } else if (value == 2){
+                int studentid = sc.checkStudentId(user.getEmail());
+                String studentName = sc.checkStudentName(studentid) ;
+                session.setAttribute("studentId", studentid);
+                session.setAttribute("studentName", studentName);
                 jspPage = Pages.HOME;
             }else{
                 errorList.add(Errors.ERROR_LOGIN);

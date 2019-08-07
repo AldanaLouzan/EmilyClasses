@@ -185,4 +185,29 @@ public class StudentDaoImpl implements IStudentDao {
         return studentID;
 
     }
+    
+    public String selectStudentName(int studentId) {
+        String name = null;
+        Connection con = null;
+        String sql = "SELECT "
+                + "s_name "
+                + "FROM student "
+                + "WHERE idstudent = '" + studentId + "';";
+
+        try {
+            con = getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                name = rs.getString("s_name");
+            }
+            con.close();
+
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+
+        return name;
+
+    }
 }
