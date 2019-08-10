@@ -2,6 +2,7 @@ package dao;
 
 import static bookingclass.connectionDb.DBConnection.getConnection;
 import bookingclass.entity.Classes;
+import bookingclass.entity.Slot;
 import iDao.IClassesDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -181,13 +182,10 @@ public class ClassesDaoImpl implements IClassesDao {
             con = getConnection();
             st = con.createStatement();
             rs = st.executeQuery(sql);
-        while (rs.next()){
-                quantityStudents = rs.getInt("quantity_students");
-
-                
-                
+            while (rs.next()){
+                quantityStudents = rs.getInt("quantity_students");    
             }    
-con.close();
+            con.close();
             
             
         }catch (Exception e) {
@@ -219,5 +217,39 @@ con.close();
 
     }
 
-
+    public Classes getClass(int classId) {
+        Classes c = null;
+        
+        //Fields    
+        int idclass = 0;
+        Date date = null;
+        int time = 0;
+        String type = null;
+        int quantityStudents = 0;
+        
+        Connection con = null;
+        String sql = "SELECT "
+                + "idclasses,  date, time, type, quantity_students"
+                + "FROM classes "
+                + "WHERE idclasses = '" + classId + "';";
+        try {
+            con = getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                idclass = rs.getInt("idclasses");
+                date = rs.getDate("date");
+                time = rs.getInt("time");
+                type = rs.getString("type");
+                quantityStudents = rs.getInt("quantity_students");
+            }
+          
+            c = new Classes(idclass, date, time, type, quantityStudents);
+            
+            con.close();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return c;
+    }
 }

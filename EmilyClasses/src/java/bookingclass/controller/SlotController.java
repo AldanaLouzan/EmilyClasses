@@ -3,6 +3,10 @@ package bookingclass.controller;
 import bookingclass.entity.Classes;
 import bookingclass.entity.Slot;
 import dao.SlotDaoImpl;
+import java.sql.ResultSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import viewInterface.ISlot;
 
 /**
@@ -57,6 +61,18 @@ public class SlotController implements ISlot {
         
         boolean booking = data.insertNewSlot(s);
         return booking;
+    }
+    
+    public ResultSet selectSlotJoinClasses(Date d){    
+    
+        /*Date d;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        d = sdf.parse(date);*/
+        ResultSet rs;
+        rs = data.selectSlotJoinClasses(d);
+        
+        return rs;
+        
     }
     
 }

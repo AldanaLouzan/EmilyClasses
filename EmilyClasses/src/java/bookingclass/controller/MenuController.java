@@ -1,5 +1,6 @@
 package bookingclass.controller;
 
+import bookingclass.entity.Booking;
 import bookingclass.entity.Classes;
 import bookingclass.entity.Parent;
 import bookingclass.entity.Slot;
@@ -15,10 +16,6 @@ import java.util.Map;
 import java.util.Scanner;
 import viewInterface.IMenu;
 
-/**
- *
- * @author Aldana
- */
 public class MenuController implements IMenu {
 
     //Variables to manage the interaction with user
@@ -454,15 +451,19 @@ public class MenuController implements IMenu {
     
     @Override
     public boolean confirmBooking (Classes c, Slot s) {
+        Booking bok=null;
+        int idStudent;
+        Student stu=null;
         boolean value;
         if (cCon.bookClass(c) == true && slotC.bookSlot(s)== true){
             value = true;
+            idStudent = s.getStudentID();
+            stu = sc.data.getStudent(idStudent);
+            bok = new Booking(c,s,stu);
+            //Persist Booking. BookingController
         }else{
             value = false;
         }
         return value;
-    }
-
-      
-        
+    }   
 }

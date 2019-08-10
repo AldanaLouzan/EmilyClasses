@@ -1,24 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
 import static bookingclass.connectionDb.DBConnection.getConnection;
+import bookingclass.entity.Classes;
+import bookingclass.entity.Parent;
 import bookingclass.entity.Slot;
+import bookingclass.entity.Student;
+import bookingclass.entity.Teacher;
 import iDao.ISlotDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
-/**
- *
- * @author Eoin
- */
 public class SlotDaoImpl implements ISlotDao {
-       PreparedStatement pst;
+    PreparedStatement pst;
     ResultSet rs;
+    Statement st;
     
        @Override
     public boolean insertNewSlot (Slot s){
@@ -59,6 +59,68 @@ public class SlotDaoImpl implements ISlotDao {
         }
 
 
+    }
+
+    public Slot getSlot(int slotId) {
+        Slot sl = null;
+        Classes c = new Classes();
+        //Fields
+        int idstudent = 0;
+        int idclass = 0;
+        String subject = null;
+        int price = 0;
+        String status = null;
+        String comment = null;
+                     
+        Connection con = null;
+        String sql = "SELECT "
+                + "idclasses,  idstudent, comment, price, status, subject"
+                + "FROM slot "
+                + "WHERE idslot = '" + slotId + "';";
+        try {
+            con = getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                idclass = rs.getInt("idclasses");
+                idstudent = rs.getInt("idstudent");
+                comment = rs.getString("comment");
+                price = rs.getInt("price");
+                status = rs.getString("status");
+                subject = rs.getString("subject");
+            }
+            //Set ID
+            c.setId(idclass);
+          
+            sl = new Slot(slotId, idstudent, subject, price, status, c, comment);
+            
+            con.close();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return sl;
+    }
+    
+    @Override
+    public ResultSet selectSlotJoinClasses(Date d) {
+        Connection con = null;
+        
+        String sql = "SELECT c.date, c.time, c.type, c.quantity_students, stu.s_name, stu.s_surname, sl.subject, sl.price" + 
+        "FROM slot sl" +
+        "INNER JOIN classes c on sl.idclasses=c.idclasses" +
+        "INNER JOIN student stu on sl.idstudent=stu.idstudent" + 
+        "WHERE c.date= '" + d + "'" +
+        "ORDER BY c.time";
+        
+        try {
+            con = getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return rs;
     }
     
         

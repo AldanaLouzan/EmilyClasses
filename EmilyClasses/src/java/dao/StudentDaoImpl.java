@@ -1,13 +1,16 @@
 package dao;
 
 import static bookingclass.connectionDb.DBConnection.getConnection;
+import bookingclass.entity.Parent;
 import bookingclass.entity.Student;
+import bookingclass.entity.Teacher;
 import iDao.IStudentDao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 
 public class StudentDaoImpl implements IStudentDao {
 
@@ -210,4 +213,62 @@ public class StudentDaoImpl implements IStudentDao {
         return name;
 
     }
+    
+    public Student getStudent(int studentId) {
+        Student stu = null;
+        Parent par = new Parent();
+        Teacher tea = new Teacher();
+        //Fields
+        String name = null;
+        String surname = null;
+        String password = null;
+        String college = null;
+        String email = null;
+        String level = null;
+        int phone = 0;
+        int age = 0;
+        int idparent = 0;
+        int idteacher = 0;
+        Date birth = null;
+                     
+        Connection con = null;
+        String sql = "SELECT "
+                + "s_name,  s_surname, age, birth, college, email, level, phone, idparent, password, idteacher"
+                + "FROM student "
+                + "WHERE idstudent = '" + studentId + "';";
+        try {
+            con = getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                name = rs.getString("s_name");
+                surname = rs.getString("s_surname");
+                age = rs.getInt("age");
+                birth = rs.getDate("birth");
+                college = rs.getString("college");
+                email = rs.getString("email");
+                level = rs.getString("level");
+                phone = rs.getInt("phone");
+                idparent = rs.getInt("idparent");
+                password = rs.getString("password");
+                idteacher = rs.getInt("idteacher");
+            }
+            //Generate one Teacher and one Parent for the Constructor...
+            par.setIdParent(idparent);
+            tea.setId(idteacher);
+            //Parse Date to String
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String birthAsString = sdf.format(birth);
+            //Parse Phone Int To String
+            String phoneToString = Integer.toString(phone);
+            
+            stu = new Student(birthAsString, age, college, level, par, tea, studentId, email, password, phoneToString, name, surname);
+            
+            con.close();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return stu;
+    }
+    
 }

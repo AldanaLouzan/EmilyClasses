@@ -1,13 +1,5 @@
 package bookingclass.entity;
 
-import java.util.Date;
-
-
-
-/**
- *
- * @author Aldana
- */
 public class Student extends User {
 
     private String birth;
@@ -20,7 +12,7 @@ public class Student extends User {
     public Student() {
     }
     
-    //Constructor without parent attibute, as not all the students must have parents contanct details
+    //Constructor without parent attibute, as not all the students must have parents contanct details    
     public Student(String birth, int age, String college, String level, Teacher teacher, int id, String email, String password, String phone, String name, String surname) {
         super(id, email, password, phone, name, surname);
         this.birth = birth;

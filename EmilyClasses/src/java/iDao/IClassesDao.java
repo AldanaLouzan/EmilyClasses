@@ -16,5 +16,5 @@ public interface IClassesDao {
     public boolean book(Classes c);
     public void insertQuantityStudents(Classes c, int qs);
     public int selectTimeChosen (int classId);
-    
+    public Classes getClass(int classId);
 }
