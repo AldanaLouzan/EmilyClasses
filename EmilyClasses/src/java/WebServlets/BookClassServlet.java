@@ -8,6 +8,7 @@ import bookingclass.entity.Classes;
 import bookingclass.entity.Slot;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,6 +83,7 @@ public class BookClassServlet extends HttpServlet {
         newClass.setId(id);
         
         String date = (String)session.getAttribute("classDate");    //Get ClassDate
+        newClass.setDate(Date.valueOf(date));
 
         newClass.setType((String)session.getAttribute("classType"));
         newClass.setTime(cc.selectTime(newClass.getId()));

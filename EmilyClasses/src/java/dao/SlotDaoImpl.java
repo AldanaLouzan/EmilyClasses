@@ -74,7 +74,7 @@ public class SlotDaoImpl implements ISlotDao {
                      
         Connection con = null;
         String sql = "SELECT "
-                + "idclasses,  idstudent, comment, price, status, subject"
+                + "idclasses,  idstudent, comment, price, status, subject "
                 + "FROM slot "
                 + "WHERE idslot = '" + slotId + "';";
         try {
@@ -105,11 +105,11 @@ public class SlotDaoImpl implements ISlotDao {
     public ResultSet selectSlotJoinClasses(Date d) {
         Connection con = null;
         
-        String sql = "SELECT c.date, c.time, c.type, c.quantity_students, stu.s_name, stu.s_surname, sl.subject, sl.price" + 
-        "FROM slot sl" +
-        "INNER JOIN classes c on sl.idclasses=c.idclasses" +
-        "INNER JOIN student stu on sl.idstudent=stu.idstudent" + 
-        "WHERE c.date= '" + d + "'" +
+        String sql = "SELECT c.date, c.time, c.type, c.quantity_students, stu.s_name, stu.s_surname, sl.subject, sl.price " + 
+        "FROM slot sl " +
+        "INNER JOIN classes c on sl.idclasses=c.idclasses " +
+        "INNER JOIN student stu on sl.idstudent=stu.idstudent " + 
+        "WHERE c.date= '" + d + "' " +
         "ORDER BY c.time";
         
         try {
@@ -123,6 +123,34 @@ public class SlotDaoImpl implements ISlotDao {
         return rs;
     }
     
-        
+    public int getIdSlotByParameters(Slot s) {
+        Slot sl = null;
+        Classes c = new Classes();
+        //Fields
+        int idslot = 0;
+        int idclass = 0;
+        String subject = null;
+        int price = 0;
+        String status = null;
+        String comment = null;
+                     
+        Connection con = null;
+        String sql = "SELECT idslot "
+                + "FROM slot "
+                + "WHERE idclasses = '" + s.getClasses().getId() + "' and idstudent = '"+ s.getStudentID() + "' and comment = '" + s.getComment() + "' and price = '" + s.getPrice() + "' and status = '" + s.getStatus() + "' and subject = '" + s.getSubject() + "';";
+        try {
+            con = getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                idslot = rs.getInt("idslot");
+            }
+                        
+            con.close();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return idslot;
+    }    
     
 }

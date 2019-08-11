@@ -9,4 +9,5 @@ public interface ISlotDao {
     public boolean insertNewSlot (Slot s);
     public ResultSet selectSlotJoinClasses(Date d);
     public Slot getSlot(int slotId);
+    public int getIdSlotByParameters(Slot s);
 }

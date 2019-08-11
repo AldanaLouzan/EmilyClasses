@@ -5,12 +5,14 @@ package WebServlets;
 import WebUtil.Errors;
 import WebUtil.Pages;
 import WebUtil.UIConstants;
+import bookingclass.controller.BookingController;
 import bookingclass.controller.ClassController;
 import bookingclass.controller.MenuController;
 import bookingclass.entity.Classes;
 import bookingclass.entity.Slot;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -79,12 +81,15 @@ public class ConfirmBookingServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         MenuController mc = new MenuController();
+        BookingController bc = new BookingController();
         HttpSession session= (HttpSession) request.getSession();
         
         Classes c = (Classes)session.getAttribute("classSet");
         Slot s = (Slot)session.getAttribute("slotSet");
         
         boolean success = mc.confirmBooking(c, s);
+        ResultSet rs = bc.getAllBookings();
+        session.setAttribute("bookingsResultSet", rs);
                 
         if (!success){
             out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");

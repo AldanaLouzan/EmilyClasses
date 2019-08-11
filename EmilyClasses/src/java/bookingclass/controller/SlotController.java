@@ -65,14 +65,16 @@ public class SlotController implements ISlot {
     
     public ResultSet selectSlotJoinClasses(Date d){    
     
-        /*Date d;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        d = sdf.parse(date);*/
         ResultSet rs;
         rs = data.selectSlotJoinClasses(d);
         
         return rs;
         
+    }
+
+    @Override
+    public int getIdSlotByParameters(Slot s) {
+        return data.getIdSlotByParameters(s);
     }
     
 }

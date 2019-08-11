@@ -9,4 +9,5 @@ public interface ISlot {
     public int calculatePrice(String classType);
     public boolean bookSlot (Slot s);   
     public String defineSubject(String subject);
+    public int getIdSlotByParameters(Slot s);
 }

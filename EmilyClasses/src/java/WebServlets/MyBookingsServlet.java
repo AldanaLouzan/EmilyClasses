@@ -1,13 +1,18 @@
 package WebServlets;
 
 import WebUtil.Pages;
+import bookingclass.controller.BookingController;
+import bookingclass.controller.ClassController;
+import bookingclass.controller.MenuController;
 import bookingclass.controller.SlotController;
+import bookingclass.entity.Booking;
 import bookingclass.entity.Slot;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -20,6 +25,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "MyBookingsServlet", urlPatterns = {"/MyBookingsServlet"})
 public class MyBookingsServlet extends HttpServlet {
@@ -73,32 +79,17 @@ public class MyBookingsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /*ResultSet rs = stmt.executeQuery("SELECT a, b, c FROM TABLE2"); 
-        ResultSetMetaData rsmd = rs.getMetaData(); 
-        String name = rsmd.getColumnName(1); */
-        String jspPage = Pages.LISTBOOKINGS;
+        String jspPage = Pages.BOOKINGS;
         List<String> errorList = new ArrayList<String>();
-        SlotController sl = new SlotController();
-        Date d = null;
-        d.setDate(23);
-        d.setMonth(7);
-        d.setYear(2019);
-        ResultSet rs = sl.selectSlotJoinClasses(d); 
-        Object[] algo = rs.next();
-        ResultSetMetaData rsmd = rs.getMetaData();
-        // better add performance
-        List<Object[]> records=new LinkedList<Object[]>();
-        // call only once
-        int cols = rsmd.getColumnCount();
-        
-        while(rs.next()){
-            Object[] arr = new Object[cols];
-            for(int i=0; i<cols; i++){
-              arr[i] = rs.getObject(i+1);
-            }
-            records.add(arr);
-        }
-        
+        PrintWriter out = response.getWriter();
+        HttpSession session= (HttpSession) request.getSession(true);
+
+        BookingController bc = new BookingController();
+        ClassController cc = new ClassController();
+            
+        //ResultSet rs = bc.getAllBookings();
+                        
+        processRequest(jspPage, request, response);
     }
 
     /**

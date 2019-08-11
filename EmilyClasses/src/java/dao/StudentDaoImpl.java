@@ -233,7 +233,7 @@ public class StudentDaoImpl implements IStudentDao {
                      
         Connection con = null;
         String sql = "SELECT "
-                + "s_name,  s_surname, age, birth, college, email, level, phone, idparent, password, idteacher"
+                + "s_name,  s_surname, age, birth, college, email, level, phone, idparent, password, idteacher "
                 + "FROM student "
                 + "WHERE idstudent = '" + studentId + "';";
         try {

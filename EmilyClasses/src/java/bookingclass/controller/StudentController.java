@@ -95,5 +95,9 @@ public class StudentController implements IStudent {
         String studentName = data.selectStudentName(studentId);
         return studentName;
         
-    } 
+    }
+     
+    public Student getStudent(int idStudent){
+        return data.getStudent(idStudent);
+    }
 }

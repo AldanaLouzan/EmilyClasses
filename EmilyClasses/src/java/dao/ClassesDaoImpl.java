@@ -229,7 +229,7 @@ public class ClassesDaoImpl implements IClassesDao {
         
         Connection con = null;
         String sql = "SELECT "
-                + "idclasses,  date, time, type, quantity_students"
+                + "idclasses,  date, time, type, quantity_students "
                 + "FROM classes "
                 + "WHERE idclasses = '" + classId + "';";
         try {

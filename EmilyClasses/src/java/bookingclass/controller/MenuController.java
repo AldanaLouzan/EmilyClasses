@@ -7,6 +7,8 @@ import bookingclass.entity.Slot;
 import bookingclass.entity.Student;
 import bookingclass.entity.Teacher;
 import bookingclass.view.Menu;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import viewInterface.IMenu;
 
 public class MenuController implements IMenu {
@@ -28,7 +32,7 @@ public class MenuController implements IMenu {
     ClassController cCon = new ClassController();
     SlotController slotC = new SlotController();
     TeacherController tt = new TeacherController();
-    
+    BookingController bk = new BookingController();
 
    @Override
     //----Registration new IMenu----//
@@ -451,16 +455,27 @@ public class MenuController implements IMenu {
     
     @Override
     public boolean confirmBooking (Classes c, Slot s) {
-        Booking bok=null;
         int idStudent;
+        int idSlot;
         Student stu=null;
+        Slot slot=null;
         boolean value;
         if (cCon.bookClass(c) == true && slotC.bookSlot(s)== true){
-            value = true;
+            //value = true;
             idStudent = s.getStudentID();
-            stu = sc.data.getStudent(idStudent);
-            bok = new Booking(c,s,stu);
+            stu = sc.getStudent(idStudent);
+            idSlot = slotC.getIdSlotByParameters(s);
+            s.setIdSlot(idSlot);
             //Persist Booking. BookingController
+            boolean success = bk.insertNewBooking(c,s,stu);
+            if (success==true)
+            {
+                value=true;
+            }
+            else
+            {
+                value=false;
+            }
         }else{
             value = false;
         }
